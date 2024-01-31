@@ -1,12 +1,13 @@
+import { json } from "express";
 import pkg from "sqlite3";
 const { Database } = pkg;
 
-class DBCommands {
+class DBQueries {
   constructor(databaseName, callback) {
     this.db = new Database(databaseName, callback);
 
-    // SQL Commands
-    this.createTablePostsSQL = `
+    // Query Commands
+    this.createTablePostsQuery = `
     CREATE TABLE IF NOT EXISTS posts (
       id INTEGER PRIMARY KEY,
       title TEXT,
@@ -15,7 +16,7 @@ class DBCommands {
     );
     `;
 
-    this.createTableImagesSQL = `
+    this.createTableImagesQuery = `
       CREATE TABLE IF NOT EXISTS images (
         id INTEGER PRIMARY KEY,
         url TEXT,
@@ -24,40 +25,63 @@ class DBCommands {
       );
     `;
 
-    this.insertPostSQL = `
-      INSERT INTO posts (title, content) VALUES (?, ?);
+    this.insertPostQuery = `
+      INSERT INTO posts (title, content, date) VALUES (?, ?, ?);
     `;
 
-    this.insertImageSQL = `
+    this.insertImageQuery = `
       INSERT INTO images (url, post_id) VALUES (?, ?);
     `;
 
-    this.selectPostsSQL = `
-      SELECT id, title, content, Date FROM posts WHERE id=(id) values (?);
+    this.selectAllPostsQuery = `
+      SELECT * FROM posts;
     `;
 
-    this.selectImagesByPostIdSQL = `
-      SELECT id, url FROM images WHERE post_id = ?;
-    `;
+    // this.selectImagesByPostIdQuery = `
+    //   SELECT id, url FROM images WHERE post_id = ?;
+    // `;
 
-    // this.deletePostSQL = `
+    // this.deletePostQuery = `
     //   DELETE FROM posts WHERE condition;
     // `;
 
     // this.createTable();
   }
 
+
+  // executable methods
   createTable() {
-    this.db.run(this.createTablePostsSQL, (err) => {
+    this.db.run(this.createTablePostsQuery, (err) => {
       if (err) console.error(err.message);
       else console.log('Table "posts" created');
     });
 
-    this.db.run(this.createTableImagesSQL, (err) => {
+    this.db.run(this.createTableImagesQuery, (err) => {
       if (err) console.error(err.message);
       else console.log('Table "images" created');
     });
   }
+
+  insertPost(title, content, date) {
+    this.db.run(this.insertPostQuery, [title, content, date], function (err) {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log(`A row has been inserted with id ${this.lastID}`);
+    });
+  }
+
+  selectAll(callback) {
+    this.db.all(this.selectAllPostsQuery, (err, rows) => {
+      if (err) {
+        console.log(err.message);
+        callback(err, null);
+      } else {
+        console.log("All rows selected");
+        callback(null, rows);
+      }
+    });
+  }
 }
 
-export default DBCommands;
+export default DBQueries;
