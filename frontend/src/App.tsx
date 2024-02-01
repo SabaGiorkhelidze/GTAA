@@ -9,27 +9,27 @@ import { useState } from "react";
 import { Card } from "./Components/Card/Card";
 import useFetch from "./Hooks/useFetch";
 import Loader from "./Components/Loader/Loader";
+import CardLayout from "./Layouts/CardLayout";
 
 function App() {
-  const [isSigned, setIsSigned] = useState<boolean>(false)
-  const { data, loading, error } = useFetch('http://localhost:8080/posts/3');
-  console.log(data)
+  const [isSigned, setIsSigned] = useState<boolean>(false);
+  const { data, loading, error } = useFetch("http://localhost:8080/posts");
+  console.log(data);
 
-  if (loading) 
-    return <Loader />;
-  
+  if (loading) return <Loader />;
 
-  if (error) 
-    return <div>Error: {error}</div>;
-  
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
-      <AppContext.Provider value={{isSigned, setIsSigned}}>
+      <AppContext.Provider value={{ isSigned, setIsSigned, data }}>
         <Navbar />
+        <div>
+          {/* <Card /> */}
+          <CardLayout />
+        </div>
         {/* <SignInModal /> */}
         {/* <DefaultNavigation /> */}
-        <Card />
       </AppContext.Provider>
     </>
   );

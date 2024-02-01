@@ -9,9 +9,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { CardPropTypes } from "../../Types/CardPropTypes";
+import { DataTypes } from "../../Types/DataTypes";
 
-export function Card({ id }: CardPropTypes) {
+export function Card({ id, title, content, date }: DataTypes) {
 
   const navigate = useNavigate();
   const handleNavigate = () => navigate(`post/${id}`);
@@ -27,17 +27,14 @@ export function Card({ id }: CardPropTypes) {
       />
 
       <Heading my="4" size="lg">
-        Svartifoss Waterfall
+        {title}
       </Heading>
       <Text>
-        Svartifoss is a waterfall in Skaftafell in Vatnajökull National Park in
-        Iceland, and is one of the most popular sights in the park. It is
-        surrounded by dark lava columns, which gave rise to its name. The base
-        of this waterfall is noteworthy for its sharp rocks.
+        {content}
       </Text>
       <Center my="6">
         <Button colorScheme="green" onClick={handleNavigate}>
-          Learn more
+          Learn More
         </Button>
       </Center>
     </Box>
