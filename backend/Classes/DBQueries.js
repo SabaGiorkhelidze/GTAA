@@ -37,6 +37,10 @@ class DBQueries {
       SELECT * FROM posts;
     `;
 
+    this.selectByIDQuery = `
+      SELECT * FROM posts WHERE id = ?;
+    `;
+
     // this.selectImagesByPostIdQuery = `
     //   SELECT id, url FROM images WHERE post_id = ?;
     // `;
@@ -81,6 +85,18 @@ class DBQueries {
         callback(null, rows);
       }
     });
+  }
+
+  selectByID(id, callback){
+    this.db.get(this.selectByIDQuery,[id], (err, row)=> {
+      if(err){
+        console.log(err.message)
+        callback(err, null);
+      }else{
+        console.log('selected by id')
+        callback(null, row)
+      }
+    })
   }
 }
 
