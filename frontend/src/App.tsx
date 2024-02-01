@@ -8,11 +8,21 @@ import { AppContext } from "./Context/AppContext";
 import { useState } from "react";
 import { Card } from "./Components/Card/Card";
 import useFetch from "./Hooks/useFetch";
+import Loader from "./Components/Loader/Loader";
 
 function App() {
   const [isSigned, setIsSigned] = useState<boolean>(false)
   const { data, loading, error } = useFetch('http://localhost:8080/posts/3');
   console.log(data)
+
+  if (loading) 
+    return <Loader />;
+  
+
+  if (error) 
+    return <div>Error: {error}</div>;
+  
+
   return (
     <>
       <AppContext.Provider value={{isSigned, setIsSigned}}>
