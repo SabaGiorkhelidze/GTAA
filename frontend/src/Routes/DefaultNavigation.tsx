@@ -5,6 +5,7 @@ const DefaultNavigation = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path='/post/:id' element={<h1>hello</h1>} />
     </Routes>
   );
 };
