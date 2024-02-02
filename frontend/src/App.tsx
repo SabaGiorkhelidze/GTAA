@@ -26,10 +26,10 @@ function App() {
         <Navbar />
         <div>
           {/* <Card /> */}
-          <CardLayout />
+          {/* <CardLayout /> */}
         </div>
         {/* <SignInModal /> */}
-        {/* <DefaultNavigation /> */}
+        <DefaultNavigation />
       </AppContext.Provider>
     </>
   );

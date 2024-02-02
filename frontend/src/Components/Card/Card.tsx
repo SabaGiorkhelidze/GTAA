@@ -17,7 +17,7 @@ export function Card({ id, title, content, date }: DataTypes) {
   const handleNavigate = () => navigate(`post/${id}`);
   
   return (
-    <Box maxW="420px" bg="white" p="6" borderWidth={1} borderRadius={"xl"}>
+    <Box maxW="390px" bg="white" boxShadow={7} p="6" borderWidth={2} borderRadius={"xl"}>
       <Image
         src="https://images.unsplash.com/photo-1667420170858-39d40cb413e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
         alt="Svartifoss Waterfall"
