@@ -1,14 +1,20 @@
-import React from 'react'
-import PostWithLike from '../Components/Card/Card'
-import CardLayout from '../Layouts/CardLayout'
-
+import React from "react";
+import CardLayout from "../Layouts/CardLayout";
+import Header from "../Components/Header/Header";
+import HomePageIntro from "../Components/Intro/HomePageIntro";
 const HomePage = () => {
   return (
-    <div>
-      <CardLayout />
+    <div className=" ">
+      <div>
+        <HomePageIntro />
+      </div>
+      <div className="">
+        <Header />
+        <CardLayout />
+      </div>
       {/* <PostWithLike /> */}
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

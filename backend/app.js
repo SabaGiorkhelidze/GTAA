@@ -20,7 +20,7 @@ export const db = new DBQueries("./database/Post.db", (error) => {
 
 // ____insert Post___
 // db.insertPost(
-//   "Post 3",
+//   "Post 4",
 //   "lorem ipsum",
 //   `${new Date(new Date().getTime()).toISOString()}`
 // );

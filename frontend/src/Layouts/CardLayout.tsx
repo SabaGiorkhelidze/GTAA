@@ -8,7 +8,7 @@ const CardLayout = () => {
   return (
     <div>
       <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 4, "2xl": 5, }}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 3, "2xl": 4,   }}
         data-type="Grid"
         gap={4}
         mb="6"
