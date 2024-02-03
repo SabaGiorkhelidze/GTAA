@@ -6,10 +6,11 @@ import DefaultNavigation from "./Routes/DefaultNavigation";
 import SignInModal from "./Components/Modal/SignInModal";
 import { AppContext } from "./Context/AppContext";
 import { useState } from "react";
-import { Card } from "./Components/Card/Card";
+import { Card } from "./Components/Card/old";
 import useFetch from "./Hooks/useFetch";
 import Loader from "./Components/Loader/Loader";
 import CardLayout from "./Layouts/CardLayout";
+import NotFound from "./Components/404/NotFound";
 
 function App() {
   const [isSigned, setIsSigned] = useState<boolean>(false);
@@ -18,7 +19,7 @@ function App() {
 
   if (loading) return <Loader />;
 
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <NotFound url="/"/>;
 
   return (
     <>

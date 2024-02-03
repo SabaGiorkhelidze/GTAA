@@ -5,16 +5,17 @@ import MenuToggle from "./NavbarComponents/MenuToggle";
 import MenuLinks from "./NavbarComponents/MenuLinks";
 import Logo from '../../assets/batman.png';
 import { AppContext } from "../../Context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = (): void => setIsOpen(!isOpen);
   const {isSigned, setIsSigned} = useContext(AppContext);
-  
+  const navigate = useNavigate()  
 
   return (
     <NavBarContainer>
-      <Image src={Logo} boxSize={'60px'} objectFit={'contain'} />
+      <Image src={Logo} boxSize={'60px'} objectFit={'contain'} cursor={'pointer'} onClick={() => navigate('/')}/>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
     </NavBarContainer>

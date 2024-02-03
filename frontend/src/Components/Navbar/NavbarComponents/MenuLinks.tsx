@@ -22,28 +22,12 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
         pt={[4, 4, 0, 0]}
       >
         {/* <MenuItem to="/"></MenuItem> */}
-        <MenuItem to="/how"> About Us </MenuItem>
+        <MenuItem to="/about"> About Us </MenuItem>
         <MenuItem to="/faetures"> Features </MenuItem>
 
         <MenuItem isLast>
-          {/* <Button
-            size="sm"
-            rounded="md"
-            color={[colors.primary[500], colors.primary[500], "white", "white"]}
-            bg={["white", "white", colors.primary[500], colors.primary[500]]}
-            _hover={{
-              bg: [
-                colors.primary[100],
-                colors.primary[100],
-                colors.primary[600],
-                colors.primary[600],
-              ],
-            }}
-          >
-            Sing In
-          </Button> */}
           {isSigned ? (
-            <MenuItem to="/faetures"> Add Post </MenuItem>
+            <MenuItem to="/addPost"> Add Post </MenuItem>
           ) : (
             <SignInModal />
           )}
