@@ -1,21 +1,24 @@
-import { Grid, SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import Card from "../Components/Card/Card";
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import { DataTypes } from "../Types/DataTypes";
+
 const CardLayout = () => {
   const { data } = useContext(AppContext);
   return (
-    <div>
+    <div className="">
       <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 3, "2xl": 4,   }}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 3, "2xl": 4 }}
         data-type="Grid"
         gap={4}
         mb="6"
+
+        // mt={10}
       >
         {data.map((item: DataTypes) => (
           <Card
-            id={item.id}
+            PostID={item.PostID}
             title={item.title}
             content={item.content}
             date={item.date}

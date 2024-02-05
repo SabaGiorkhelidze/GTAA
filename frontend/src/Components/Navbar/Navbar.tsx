@@ -3,7 +3,7 @@ import { Image } from "@chakra-ui/react";
 import NavBarContainer from "./NavbarComponents/NavbarContainer";
 import MenuToggle from "./NavbarComponents/MenuToggle";
 import MenuLinks from "./NavbarComponents/MenuLinks";
-import Logo from '../../assets/batman.png';
+import Logo from '../../assets/logo.png';
 import { AppContext } from "../../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <NavBarContainer>
-      <Image src={Logo} boxSize={'60px'} objectFit={'contain'} cursor={'pointer'} onClick={() => navigate('/')}/>
+      <Image src={Logo} boxSize={'60px'} objectFit={'contain'}  cursor={'pointer'}  onClick={() => navigate('/')}/>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
     </NavBarContainer>

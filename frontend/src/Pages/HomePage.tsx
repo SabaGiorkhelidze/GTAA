@@ -8,7 +8,7 @@ const HomePage = () => {
       <div>
         <HomePageIntro />
       </div>
-      <div className="">
+      <div className=" mt-32">
         <Header />
         <CardLayout />
       </div>

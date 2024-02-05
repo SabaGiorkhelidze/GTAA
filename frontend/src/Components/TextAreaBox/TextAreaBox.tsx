@@ -1,7 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import CustomTextArea from "../Input/CustomTextArea";
+import { useContext } from "react";
+import { PostContext } from "../../Context/PostContext";
 
 const TextAreaBox = () => {
+  const {handleContentChange} = useContext(PostContext)
   return (
     <>
       <Box
@@ -10,7 +13,7 @@ const TextAreaBox = () => {
         flex={1}
         px={10}
       >
-        <CustomTextArea placeholder="Enter content here" size="100%" />
+        <CustomTextArea placeholder="Enter content here" size="100%" onChange={handleContentChange}/>
       </Box>
     </>
   );

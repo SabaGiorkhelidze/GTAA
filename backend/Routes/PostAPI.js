@@ -1,5 +1,4 @@
 import express from "express";
-import DBQueries from "../Classes/DBQueries.js";
 import { db } from "../app.js";
 
 const PostRouter = express.Router();
@@ -37,6 +36,23 @@ PostRouter.get("/:id", async (request, response) => {
   } catch (error) {
     console.log(error.message);
     return response.status(500).send({ error: error.message });
+  }
+});
+
+PostRouter.post("/", async (request, response) => {
+  try {
+    console.log(request.body);
+
+    const { title, date, content } = request.body;
+
+    db.insertPost(title, content, date);
+
+    response
+      .status(201)
+      .json({ message: "Post Uploaded in database succesfully" });
+  } catch (error) {
+    console.error("Error creating post:", error);
+    response.status(500).json({ error: "Internal Server Error" });
   }
 });
 

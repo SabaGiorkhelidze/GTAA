@@ -9,6 +9,7 @@ import {
   Text,
   Stack,
   Avatar,
+  Flex,
   useColorModeValue,
   Button,
 } from "@chakra-ui/react";
@@ -16,9 +17,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { DataTypes } from "../../Types/DataTypes";
 
-export default function Card({ PostID, title, content, date }: DataTypes) {
+export default function Card({ id, title, content, date }: DataTypes) {
   const navigate = useNavigate();
-  const handleNavigate = () => navigate(`post/${PostID}`);
+  const handleNavigate = () => navigate(`post/${id}`);
   return (
     <Center py={6}>
       <Box
@@ -48,6 +49,14 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
           />
         </Box>
         <Stack>
+          {/* <Text
+            color={'green.500'}
+            textTransform={'uppercase'}
+            fontWeight={800}
+            fontSize={'sm'}
+            letterSpacing={1.1}>
+            Blog
+          </Text> */}
           <Heading
             // eslint-disable-next-line react-hooks/rules-of-hooks
             color={useColorModeValue("gray.700", "white")}
@@ -69,14 +78,14 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
           >
             {/* <Text fontWeight={600}>Achim Rolle</Text> */}
             <Text color={"gray.500"}> date </Text>
-            <Button
-              bg="blue.700"
-              color={"white"}
-              _hover={{ bg: "blue.900" }}
-              onClick={handleNavigate}
-            >
-              Read More
-            </Button>
+            <Flex direction={'row'} justifyContent={'space-around'} width={'full'}>
+              <Button colorScheme="yellow" onClick={handleNavigate}>
+                Edit
+              </Button>
+              <Button colorScheme="red" onClick={handleNavigate}>
+                Delete
+              </Button>
+            </Flex>
           </Stack>
         </Stack>
       </Box>

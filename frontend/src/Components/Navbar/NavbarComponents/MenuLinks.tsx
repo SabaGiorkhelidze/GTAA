@@ -13,6 +13,7 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
+      color={'blue.700'}
     >
       <Stack
         spacing={8}
@@ -22,12 +23,12 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
         pt={[4, 4, 0, 0]}
       >
         {/* <MenuItem to="/"></MenuItem> */}
-        <MenuItem to="/about"> About Us </MenuItem>
-        <MenuItem to="/faetures"> Features </MenuItem>
+        <MenuItem to="/about"> ჩვენს შესახებ </MenuItem>
+        <MenuItem to="/Pricing"> ფასები </MenuItem>
 
         <MenuItem isLast>
           {isSigned ? (
-            <MenuItem to="/addPost"> Add Post </MenuItem>
+            <MenuItem to="/addPost"> დაამატე პოსტი </MenuItem>
           ) : (
             <SignInModal />
           )}

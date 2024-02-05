@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Heading,
   Avatar,
@@ -11,105 +9,137 @@ import {
   Link,
   Badge,
   useColorModeValue,
-} from '@chakra-ui/react'
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Flex,
+} from "@chakra-ui/react";
 
-export default function TeamCard() {
+import { socialMediaData } from "../../Data/SocMediaData.ts";
+import MediaLinks from "../SocialMediaLinks/MediaLinks";
+import IconBox from "../SocialMediaLinks/IconBox.tsx";
+import CustomBadge from "../Badge/CustomBadge.tsx";
+import { TeamData, TeamDataTypes } from "../../Data/TeamData.ts";
+export default function TeamCard({img, fullName, position, contactInfo}: TeamDataTypes) {
   return (
     <Center py={6}>
       <Box
-        maxW={'320px'}
-        w={'full'}
-        bg={useColorModeValue('white', 'gray.900')}
-        boxShadow={'2xl'}
-        rounded={'lg'}
+        maxW={"320px"}
+        w={"full"}
+        bg={useColorModeValue("white", "gray.900")}
+        boxShadow={"2xl"}
+        rounded={"lg"}
         p={6}
-        textAlign={'center'}>
+        textAlign={"center"}
+      >
         <Avatar
-          size={'xl'}
+          size={"xl"}
           src={
-            'https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
+            img
           }
           mb={4}
-          pos={'relative'}
+          pos={"relative"}
           _after={{
             content: '""',
             w: 4,
             h: 4,
-            bg: 'green.300',
-            border: '2px solid white',
-            rounded: 'full',
-            pos: 'absolute',
+            bg: "green.300",
+            border: "2px solid white",
+            rounded: "full",
+            pos: "absolute",
             bottom: 0,
             right: 3,
           }}
         />
-        <Heading fontSize={'2xl'} fontFamily={'body'}>
-          Lindsey James
+        <Heading fontSize={"2xl"} fontFamily={"body"}>
+          {fullName}
         </Heading>
-        <Text fontWeight={600} color={'gray.500'} mb={4}>
-          @lindsey_jam3s
-        </Text>
-        <Text
-          textAlign={'center'}
-          color={useColorModeValue('gray.700', 'gray.400')}
-          px={3}>
-          Actress, musician, songwriter and artist. PM for work inquires or{' '}
-          <Text color={'blue.400'}>#tag</Text> me in your posts
-        </Text>
 
-        <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}>
-            #art
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}>
-            #photography
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}>
-            #music
-          </Badge>
+        {/* <Text
+          textAlign={"center"}
+          color={useColorModeValue("gray.700", "gray.400")}
+          px={3}
+        >
+          Actress, musician, songwriter and artist. PM for work inquires or me
+          in your posts
+        </Text> */}
+
+        <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
+          {/* {["art", "music", "photo"].map((item: string) => (
+            <CustomBadge badgeTitle={item} />
+          ))} */}
+          <CustomBadge badgeTitle={position} />
         </Stack>
 
-        <Stack mt={8} direction={'row'} spacing={4}>
-          <Button
+        <Stack mt={8} direction={"row"} spacing={4}>
+          
+          {/* Note: this is for further use, when i will add the get more info about person in the v2 */}
+          {/* <Button
             flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
+            fontSize={"sm"}
+            rounded={"full"}
             _focus={{
-              bg: 'gray.200',
-            }}>
-            Message
-          </Button>
-          <Button
-            flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
-            bg={'blue.400'}
-            color={'white'}
-            boxShadow={
-              '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-            }
-            _hover={{
-              bg: 'blue.500',
+              bg: "gray.200",
             }}
-            _focus={{
-              bg: 'blue.500',
-            }}>
-            Follow
-          </Button>
+          >
+            See More about person
+          </Button> */}
+          {/* End Of Note */}
+
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                flex={1}
+                fontSize={"sm"}
+                rounded={"full"}
+                bg={"blue.600"}
+                color={"white"}
+                boxShadow={
+                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                }
+                _hover={{
+                  bg: "blue.800",
+                }}
+                _focus={{
+                  bg: "blue.500",
+                }}
+              >
+                Follow
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverBody borderWidth={4}>
+                {/* Note: this is iterable component to */}
+                {contactInfo.map((info) => (
+                    <Flex
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    px={12}
+                  >
+                    
+                    <Stack>
+                      <IconBox Icon={info.Icon} />
+                    </Stack>
+                    <Stack>
+                      <MediaLinks url={info.url} name={info.name} />
+                    </Stack>
+                  </Flex>
+                  ))}
+                {/* End Of Note */}
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </Stack>
       </Box>
     </Center>
-  )
+  );
 }

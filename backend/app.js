@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/posts', PostRouter)
 
-export const db = new DBQueries("./database/Post.db", (error) => {
+export const db = new DBQueries("./database/PostDatabase.db", (error) => {
   if (error) return console.log(error.message);
   //   console.log("Database created");
 });
@@ -41,6 +41,16 @@ export const db = new DBQueries("./database/Post.db", (error) => {
 //     return response.status(500).send({ error: "Error retrieving data" });
 //   }
 //   return response.status(200).send({ data: postByID });
+// });
+
+
+// _______Delete All Posts_________________
+// db.deleteAllPosts((err) => {
+//   if (err) {
+//     console.error("Error deleting all posts:", err);
+//   } else {
+//     console.log("All posts have been successfully deleted");
+//   }
 // });
 app.get("/", (request, response) => {
   

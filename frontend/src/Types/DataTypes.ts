@@ -1,5 +1,5 @@
 export interface DataTypes {
-    id: number
+    PostID: number
     title: string,
     content: string,
     date: Date | string,

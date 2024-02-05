@@ -10,6 +10,7 @@ const CustomTextArea = ({ placeholder, onChange, size }: TextAreaPropTypes) => {
         width={size}
         variant={["outline", "filled"]}
         height={"200px"}
+        onChange={onChange}
       />
     </div>
   );

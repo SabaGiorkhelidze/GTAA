@@ -9,7 +9,7 @@ class DBQueries {
     // Query Commands
     this.createTablePostsQuery = `
     CREATE TABLE IF NOT EXISTS posts (
-      id INTEGER PRIMARY KEY,
+      PostID INTEGER PRIMARY KEY,
       title TEXT,
       content TEXT,
       date DATE
@@ -18,10 +18,10 @@ class DBQueries {
 
     this.createTableImagesQuery = `
       CREATE TABLE IF NOT EXISTS images (
-        id INTEGER PRIMARY KEY,
+        ImageID INTEGER PRIMARY KEY,
         url TEXT,
-        post_id INTEGER,
-        FOREIGN KEY (post_id) REFERENCES posts(id)
+        PostID INTEGER,
+        FOREIGN KEY (PostID) REFERENCES posts(PostID)
       );
     `;
 
@@ -30,7 +30,7 @@ class DBQueries {
     `;
 
     this.insertImageQuery = `
-      INSERT INTO images (url, post_id) VALUES (?, ?);
+      INSERT INTO images (url, PostID) VALUES (?, ?);
     `;
 
     this.selectAllPostsQuery = `
@@ -38,20 +38,22 @@ class DBQueries {
     `;
 
     this.selectByIDQuery = `
-      SELECT * FROM posts WHERE id = ?;
+      SELECT * FROM posts WHERE PostID = ?;
     `;
 
-    // this.selectImagesByPostIdQuery = `
-    //   SELECT id, url FROM images WHERE post_id = ?;
-    // `;
+    this.deleteAllPostsQuery = `
+    DELETE FROM posts;
+  `;
 
-    // this.deletePostQuery = `
-    //   DELETE FROM posts WHERE condition;
+    this.deletePostByIDQuery = `
+        DELETE FROM posts WHERE PostID = ?;
+  `;
+    // this.selectImagesByPostIdQuery = `
+    //   SELECT id, url FROM images WHERE PostID = ?;
     // `;
 
     // this.createTable();
   }
-
 
   // executable methods
   createTable() {
@@ -87,14 +89,38 @@ class DBQueries {
     });
   }
 
-  selectByID(id, callback){
-    this.db.get(this.selectByIDQuery,[id], (err, row)=> {
+  selectByID(id, callback) {
+    this.db.get(this.selectByIDQuery, [id], (err, row) => {
+      if (err) {
+        console.log(err.message);
+        callback(err, null);
+      } else {
+        console.log("selected by id");
+        callback(null, row);
+      }
+    });
+  }
+
+  deleteAllPosts(callback) {
+    this.db.run(this.deleteAllPostsQuery, (err) => {
+      if (err) {
+        console.log(err.message);
+        callback(err);
+      } else {
+        console.log("all posts are deleted");
+        callback(null);
+      }
+    });
+  }
+
+  deletePostByID(callback, id){
+    this.db.run(this.deletePostByIDQuery, [id], (err) => {
       if(err){
         console.log(err.message)
-        callback(err, null);
+        callback(err)
       }else{
-        console.log('selected by id')
-        callback(null, row)
+        console.log(`deleted post with the ${id}`)
+        callback(null)
       }
     })
   }
