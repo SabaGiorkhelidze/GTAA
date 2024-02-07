@@ -9,7 +9,7 @@ const DefaultNavigation = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/post/:id" element={<ReadMore />} />
+      <Route path="/posts/:PostID" element={<ReadMore />} />
       <Route path="/addPost" element={<AddPostPage />} />
     </Routes>
   );

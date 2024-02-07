@@ -14,7 +14,7 @@ import Footer from "./Components/Footer/Footer";
 
 function App() {
   const [isSigned, setIsSigned] = useState<boolean>(false);
-  const { data, loading, error } = useFetch("http://localhost:8080/posts");
+  const { data, loading, error } = useFetch("/posts");
   console.log(data);
 
   if (loading) return <Loader />;

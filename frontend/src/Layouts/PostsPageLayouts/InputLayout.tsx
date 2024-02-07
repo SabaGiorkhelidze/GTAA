@@ -4,28 +4,33 @@ import InputRowLayout from "./InputRowLayout";
 import Header from "../../Components/PostHeader/Header";
 import TextAreaBox from "../../Components/TextAreaBox/TextAreaBox";
 import Dropzone from "../../Components/DropZone/Dropzone";
-import { DropzoneButton } from "../../Components/Dropzone/Dropzone";
+// import { DropzoneButton } from "../../Components/Dropzone/Dropzone";
 import { useContext } from "react";
 import { PostContext } from "../../Context/PostContext";
 
 const InputLayout = () => {
-  const {handleAddPost, isLoading} = useContext(PostContext)
+  const { handleAddPost, } = useContext(PostContext);
   return (
     <>
-      <Flex width={"full"} align={"center"} flexDirection={"column"} height={'full'}>
+      <Flex
+        width={"full"}
+        align={"center"}
+        flexDirection={"column"}
+        height={"full"}
+      >
         <Header />
 
         <InputRowLayout />
-        
+
         <Box
-          width={["100%", "70%", "50%", '100%']}
+          width={["100%", "70%", "50%", "100%"]}
           marginTop={4}
           marginBottom={4}
           padding={["10%", "0%"]}
         >
           <Dropzone />
         </Box>
-        
+
         <TextAreaBox />
 
         <Box alignSelf={["center", "center", "flex-end"]}>
@@ -37,7 +42,8 @@ const InputLayout = () => {
             py={2}
             mb={4}
             onClick={handleAddPost}
-          isLoading={isLoading}
+            // isLoading={isLoading}
+            // type="submit"
           >
             Add Post
           </Button>

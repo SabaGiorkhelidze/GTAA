@@ -2,10 +2,11 @@ import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 interface NotFoundPropTypes {
-    url: string
+    url: string,
+    message: string
 }
 
-const NotFound = ({url}: NotFoundPropTypes) => {
+const NotFound = ({url, message}: NotFoundPropTypes) => {
     const navigate = useNavigate()
   return (
     <Box textAlign="center" py={10} px={6}>
@@ -22,7 +23,7 @@ const NotFound = ({url}: NotFoundPropTypes) => {
         Page Not Found
       </Text>
       <Text color={"gray.500"} mb={6}>
-        The page you&apos;re looking for does not seem to exist
+        {message}
       </Text>
 
       <Button

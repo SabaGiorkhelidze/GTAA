@@ -21,6 +21,7 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
         justify={["center", "space-between", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
+        
       >
         {/* <MenuItem to="/"></MenuItem> */}
         <MenuItem to="/about"> ჩვენს შესახებ </MenuItem>

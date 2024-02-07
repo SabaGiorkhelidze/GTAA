@@ -1,5 +1,8 @@
 import express from "express";
 import { db } from "../app.js";
+// import 'fs'
+import path from "path";
+import multer from "multer";
 
 const PostRouter = express.Router();
 
@@ -30,6 +33,7 @@ PostRouter.get("/:id", async (request, response) => {
           .status(500)
           .send({ error: "Error retrieving data by id" });
       } else {
+        console.log(postByID);
         return response.status(200).send({ data: postByID });
       }
     });
@@ -39,8 +43,33 @@ PostRouter.get("/:id", async (request, response) => {
   }
 });
 
-PostRouter.post("/", async (request, response) => {
+// const storage = multer.diskStorage({
+//   destination: "C:\\Users\\Saba\\Desktop\\GTAA\\backend\\Images",
+//   filename: (req, file, cb) => {
+//     cb(null, `${Date.now()}--${file.name}`);
+//   },
+// })
+
+// const upload = multer({ dest: 'C:\\Users\\Saba\\Desktop\\GTAA\\backend\\Images' })
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/assets");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+// const upload = multer({ storage: storage });
+
+const upload = multer({ storage: storage });
+
+// const upload = multer({ dest: 'Images/' });
+
+PostRouter.post("/", upload.single("file"), async (request, response) => {
   try {
+    // console.log(request.files);
     console.log(request.body);
 
     const { title, date, content } = request.body;

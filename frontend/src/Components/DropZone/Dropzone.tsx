@@ -38,6 +38,7 @@ const Dropzone = () => {
               id="dropzone-file"
               type="file"
               className="hidden"
+              name="files"
               onChange={handleFileChange}
               multiple
             />

@@ -18,7 +18,14 @@ import { DataTypes } from "../../Types/DataTypes";
 
 export default function Card({ PostID, title, content, date }: DataTypes) {
   const navigate = useNavigate();
-  const handleNavigate = () => navigate(`post/${PostID}`);
+  console.log(PostID);
+  const shortenContent = (content) => {
+    const words = content.split(' ');
+    const shortenedContent = words.slice(0, 43).join(' ');
+    return shortenedContent;
+  };
+  const handleNavigate = (PostID: string | number) =>
+    navigate(`posts/${PostID}`);
   return (
     <Center py={6}>
       <Box
@@ -56,7 +63,7 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
           >
             {title}
           </Heading>
-          <Text color={"gray.500"}>{content}</Text>
+          <Text color={"gray.500"}>{shortenContent(content)}</Text>
         </Stack>
         <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
           {/* <Avatar src={'https://avatars0.githubusercontent.com/u/1164541?v=4'} /> */}
@@ -73,7 +80,7 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
               bg="blue.700"
               color={"white"}
               _hover={{ bg: "blue.900" }}
-              onClick={handleNavigate}
+              onClick={() => handleNavigate(PostID)}
             >
               Read More
             </Button>

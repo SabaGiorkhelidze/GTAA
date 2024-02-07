@@ -27,7 +27,7 @@ const SignInModal = ({}) => {
   const { setIsSigned } = useContext(AppContext);
   return (
     <>
-      <Button onClick={onOpen} color={'white'} bg="blue.700">
+      <Button onClick={onOpen} color={'white'} bg="blue.700" >
         ადმინი
       </Button>
 
