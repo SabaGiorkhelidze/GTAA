@@ -22,6 +22,7 @@ const AddPostPage = () => {
   const [date, setDate] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]); //<FileDetails[] | []>
   const [content, setContent] = useState("");
+  // const [file, setFile] = useState<string[]>([]);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -46,7 +47,12 @@ const AddPostPage = () => {
 
   // }
   const [file, setFile] = useState([]);
-  // const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleFileChange = (event) => {
+    const filesArray = Array.from(event.target.files);
+    setFile(filesArray);
+  };
 
   const submit = async (event) => {
     event.preventDefault();
@@ -56,6 +62,9 @@ const AddPostPage = () => {
       formData.append("image", elem);
     });
     // formData.append("description", description);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("date", date);
 
     const result = await axios.post("http://localhost:8080/posts", formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -74,13 +83,13 @@ const AddPostPage = () => {
         setTitle,
         setSelectedFiles,
         handleDateChange,
-        // handleFileChange,
+        handleFileChange,
         handleTitleChange,
         handleContentChange,
         // handleAddPost,
         // isLoading,
-        setFile,
-        file
+        // setFile,
+        // file,
       }}
     >
       <form onSubmit={submit}>

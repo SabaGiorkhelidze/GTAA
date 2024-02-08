@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { PostContext } from "../../Context/PostContext";
 
 const InputLayout = () => {
-  const { handleAddPost, } = useContext(PostContext);
+  // const { handleAddPost, } = useContext(PostContext);
   return (
     <>
       <Flex
