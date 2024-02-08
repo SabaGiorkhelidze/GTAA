@@ -33,8 +33,18 @@ const AddPostPage = () => {
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value);
   };
+  const handleFileChange = (event: any) => {
+    const files = event.target.files;
+    const fileDetail = Array.from(files).map((file) => ({
+      url: file.name,
+      file: file,
+    }));
+    setSelectedFiles(fileDetail)
+  };
 
-  
+  // const handleAddPost = (data, ) => {
+
+  // }
 
   return (
     <PostContext.Provider
@@ -46,13 +56,17 @@ const AddPostPage = () => {
         setTitle,
         setSelectedFiles,
         handleDateChange,
-        // handleFileChange,
+        handleFileChange,
         handleTitleChange,
         handleContentChange,
         // handleAddPost,
         // isLoading,
       }}
-    ></PostContext.Provider>
+    >
+      <div className="w-full h-full">
+        <InputLayout />
+      </div>
+    </PostContext.Provider>
   );
 };
 

@@ -12,17 +12,38 @@ import useFetchByID from "../../Hooks/useFetchByID";
 import NotFound from "../404/NotFound";
 import Loader from "../Loader/Loader";
 
-
 const ReadMore = () => {
-
   const { PostID } = useParams();
   console.log(PostID);
   const { data, loading, error } = useFetchByID(`/posts/${PostID}`);
+
+  function splitText(content) {
+    if (!content || typeof content !== "string") {
+      console.error("Invalid content");
+      return { firstPart: "", remainingPart: "" };
+    }
+
+    const words = content.trim().split(/\s+/);
+
+    if (words.length <= 105) {
+      return { firstPart: content, remainingPart: "" };
+    }
+
+    const firstPart = words.slice(0, 105).join(" ");
+
+    const remainingPart = words.slice(105).join(" ");
+
+    return { firstPart, remainingPart };
+  }
+
+  const { firstPart, remainingPart } = splitText(data.content);
+
   const color = useColorModeValue(
     "radial(orange.600 1px, transparent 1px)",
     "radial(orange.300 1px, transparent 1px)"
   );
-  const grayColor = useColorModeValue("gray.700", "gray.200")
+  const grayColor = useColorModeValue("gray.700", "gray.200");
+  
   if (loading) {
     return <Loader />;
   }
@@ -84,27 +105,11 @@ const ReadMore = () => {
           {/* <BlogTags tags={['Engineering', 'Product']} /> */}
           <Heading marginTop="1">
             <Text textDecoration="none" _hover={{ textDecoration: "none" }}>
-              Blog article title
+              {data.title}
             </Text>
           </Heading>
-          <Text
-            as="p"
-            marginTop="2"
-            color={grayColor}
-            fontSize="lg"
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book.Lorem Ipsum is
-            simply dummy text of the printing and typesetting industry. Lorem
-            Ipsum has been the industry&apos;s standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.Lorem Ipsum is simply
-            dummy text of the printing and typesetting industry. Lorem Ipsum has
-            been the industry&apos;s standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to
-            make a type specimen book.
+          <Text as="p" marginTop="2" color={grayColor} fontSize="lg">
+            {firstPart}
           </Text>
         </Box>
       </Box>
@@ -113,29 +118,7 @@ const ReadMore = () => {
       <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
         {/* <Heading as="h2">What we write about</Heading> */}
         <Text as="p" fontSize="lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-          condimentum quam arcu, eu tempus tortor molestie at. Vestibulum
-          pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed
-          imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat
-          sapien. Suspendisse placerat vulputate posuere. Curabitur neque
-          tortor, mattis nec lacus non, placerat congue elit. Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Donec condimentum quam arcu, eu
-          tempus tortor molestie at. Vestibulum pretium condimentum dignissim.
-          Vestibulum ultrices vitae nisi sed imperdiet. Mauris quis erat
-          consequat, commodo massa quis, feugiat sapien. Suspendisse placerat
-          vulputate posuere. Curabitur neque tortor, mattis nec lacus non,
-          placerat congue elit. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Donec condimentum quam arcu, eu tempus tortor
-          molestie at. Vestibulum pretium condimentum dignissim. Vestibulum
-          ultrices vitae nisi sed imperdiet. Mauris quis erat consequat, commodo
-          massa quis, feugiat sapien. Suspendisse placerat vulputate posuere.
-          Curabitur neque tortor, mattis nec lacus non, placerat congue elit.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-          condimentum quam arcu, eu tempus tortor molestie at. Vestibulum
-          pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed
-          imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat
-          sapien. Suspendisse placerat vulputate posuere. Curabitur neque
-          tortor, mattis nec lacus non, placerat congue elit.
+          {remainingPart}
         </Text>
       </VStack>
     </Container>
