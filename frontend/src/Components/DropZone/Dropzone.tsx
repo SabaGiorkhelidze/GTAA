@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { PostContext } from "../../Context/PostContext";
 
 const Dropzone = () => {
-  const { handleFileChange } = useContext(PostContext);
+  const { setFile,file } = useContext(PostContext);
   return (
     <div className="w-full">
       <div className="max-w-2xl mx-auto">
@@ -38,8 +38,12 @@ const Dropzone = () => {
               id="dropzone-file"
               type="file"
               className="hidden"
-              name="files"
-              onChange={handleFileChange}
+              name="image"
+              onChange={(e) => {
+                const files = Array.from(e.target.files);
+                setFile([...file, ...files]);
+              }}
+              // onChange={handleFileChange}
               multiple
             />
           </label>

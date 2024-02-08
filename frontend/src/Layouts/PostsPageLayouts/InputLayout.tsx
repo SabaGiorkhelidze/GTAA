@@ -35,13 +35,15 @@ const InputLayout = () => {
 
         <Box alignSelf={["center", "center", "flex-end"]}>
           <Button
+            type="submit"
             colorScheme="blue"
             marginRight={10}
             marginTop={5}
             px={6}
             py={2}
             mb={4}
-            onClick={handleAddPost}
+
+            // onClick={handleAddPost}
             // isLoading={isLoading}
             // type="submit"
           >
