@@ -39,10 +39,6 @@ const Dropzone = () => {
               type="file"
               className="hidden"
               name="image"
-              // onChange={(e) => {
-              //   const files = Array.from(e.target.files);
-              //   setFile([...file, ...files]);
-              // }}
               onChange={handleFileChange}
               multiple
             />

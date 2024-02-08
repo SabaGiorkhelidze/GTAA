@@ -9,7 +9,6 @@ import { useContext } from "react";
 import { PostContext } from "../../Context/PostContext";
 
 const InputLayout = () => {
-  // const { handleAddPost, } = useContext(PostContext);
   return (
     <>
       <Flex
@@ -42,10 +41,6 @@ const InputLayout = () => {
             px={6}
             py={2}
             mb={4}
-
-            // onClick={handleAddPost}
-            // isLoading={isLoading}
-            // type="submit"
           >
             Add Post
           </Button>

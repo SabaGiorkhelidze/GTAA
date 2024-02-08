@@ -52,21 +52,20 @@ PostRouter.get("/:id", async (request, response) => {
 
 // const upload = multer({ dest: 'C:\\Users\\Saba\\Desktop\\GTAA\\backend\\Images' })
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "public/assets");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname);
-//   },
-// });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "images/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
 // const upload = multer({ storage: storage });
 
 // const upload = multer({ storage: storage });
-const upload = multer({ dest: 'images/' })
+const upload = multer({ dest: 'images/', storage:storage })
 
-// const upload = multer({ dest: 'Images/' });
 
 PostRouter.post("/", upload.array('image', 10), async (request, response) => {
   try {
