@@ -80,17 +80,19 @@ class DBQueries {
             `Error inserting image into images table: ${err.message}`
           );
         } else {
-          console.log(`Image inserted into images table with post ID ${postId}`);
+          console.log(
+            `Image inserted into images table with post ID ${postId}`
+          );
         }
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   insertPost(title, content, date, images) {
     const boundInsertImageByPostID = this.insertImageByPostID.bind(this);
-  
+
     this.db.run(this.insertPostQuery, [title, content, date], function (err) {
       if (err) {
         return console.error(err.message);
@@ -98,16 +100,15 @@ class DBQueries {
       console.log(
         `A row has been inserted into the posts table with id ${this.lastID}`
       );
-  
+
       const postId = this.lastID;
-  
+
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
         boundInsertImageByPostID(image, postId);
       }
     });
   }
-  
 
   selectAll(callback) {
     this.db.all(this.selectAllPostsQuery, (err, rows) => {
@@ -148,11 +149,11 @@ class DBQueries {
   deleteAllImages(callback) {
     this.db.run(this.deleteAllImagesQuery, (err) => {
       if (err) {
-        console.log(err.message)
+        console.log(err.message);
         callback(err);
-      }else{
-        console.log('all images are deleted')
-        callback(null)
+      } else {
+        console.log("all images are deleted");
+        callback(null);
       }
     });
   }
@@ -165,6 +166,22 @@ class DBQueries {
       } else {
         console.log(`deleted post with the ${id}`);
         callback(null);
+      }
+    });
+  }
+
+  selectImagesByPostID(id, callback) {
+    const selectImagesByPostIdQuery = `
+      SELECT url FROM images WHERE PostID = ?;
+    `;
+
+    this.db.all(selectImagesByPostIdQuery, [id], (err, rows) => {
+      if (err) {
+        console.log(err.message);
+        callback(err, null);
+      } else {
+        console.log("Images selected by post ID");
+        callback(null, rows);
       }
     });
   }

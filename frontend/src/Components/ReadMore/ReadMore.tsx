@@ -17,15 +17,18 @@ const ReadMore = () => {
   console.log(PostID);
   const { data, loading, error } = useFetchByID(`/posts/${PostID}`);
 
+  const { post, images } = data;
+
+  const content = post && post.content ? post.content : "";
   function splitText(content) {
     if (!content || typeof content !== "string") {
       console.error("Invalid content");
       return { firstPart: "", remainingPart: "" };
     }
 
-    const words = content.trim().split(/\s+/);
+    const words = post.content.trim().split(/\s+/);
 
-    if (words.length <= 105) {
+    if (words.length <= 100) {
       return { firstPart: content, remainingPart: "" };
     }
 
@@ -36,14 +39,14 @@ const ReadMore = () => {
     return { firstPart, remainingPart };
   }
 
-  const { firstPart, remainingPart } = splitText(data.content);
+  const { firstPart, remainingPart } = splitText(content);
 
   const color = useColorModeValue(
     "radial(orange.600 1px, transparent 1px)",
     "radial(orange.300 1px, transparent 1px)"
   );
   const grayColor = useColorModeValue("gray.700", "gray.200");
-  
+
   if (loading) {
     return <Loader />;
   }
@@ -52,10 +55,10 @@ const ReadMore = () => {
     return <NotFound url={"/"} message={error} />;
   }
 
-  console.log(data);
+  console.log(post);
   return (
     <Container maxW={"7xl"} p="12">
-      <Heading as="h1">Stories by Chakra Templates</Heading>
+      {/* <Heading as="h1">Stories by Chakra Templates</Heading> */}
       <Box
         marginTop={{ base: "1", sm: "5" }}
         display="flex"
@@ -105,11 +108,12 @@ const ReadMore = () => {
           {/* <BlogTags tags={['Engineering', 'Product']} /> */}
           <Heading marginTop="1">
             <Text textDecoration="none" _hover={{ textDecoration: "none" }}>
-              {data.title}
+              {post.title}
             </Text>
           </Heading>
           <Text as="p" marginTop="2" color={grayColor} fontSize="lg">
             {firstPart}
+            {/* {content} */}
           </Text>
         </Box>
       </Box>
@@ -118,7 +122,7 @@ const ReadMore = () => {
       <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
         {/* <Heading as="h2">What we write about</Heading> */}
         <Text as="p" fontSize="lg">
-          {remainingPart}
+          {remainingPart && remainingPart}
         </Text>
       </VStack>
     </Container>

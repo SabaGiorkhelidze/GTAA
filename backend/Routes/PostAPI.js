@@ -19,6 +19,7 @@ PostRouter.get("/", async (request, response) => {
   }
 });
 
+// Modify the existing route to get post data along with associated images
 PostRouter.get("/:id", async (request, response) => {
   const id = parseInt(request.params.id);
   try {
@@ -26,14 +27,25 @@ PostRouter.get("/:id", async (request, response) => {
       return response.status(500).send({ error: "Server error, invalid ID" });
     }
 
-    db.selectByID(id, (err, postByID) => {
+    // Use the DBQueries instance to fetch post data by ID
+    db.selectByID(id, async (err, postByID) => {
       if (err) {
         return response
           .status(500)
           .send({ error: "Error retrieving data by id" });
       } else {
-        console.log(postByID);
-        return response.status(200).send({ data: postByID });
+        // Fetch images associated with the post ID
+        db.selectImagesByPostID(id, (err, images) => {
+          if (err) {
+            return response
+              .status(500)
+              .send({ error: "Error retrieving images by post ID" });
+          } else {
+            // Combine post data with images and send the response
+            const postDataWithImages = { post: postByID, images };
+            return response.status(200).send({ data: postDataWithImages });
+          }
+        });
       }
     });
   } catch (error) {
@@ -41,6 +53,7 @@ PostRouter.get("/:id", async (request, response) => {
     return response.status(500).send({ error: error.message });
   }
 });
+
 
 
 

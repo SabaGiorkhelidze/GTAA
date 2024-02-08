@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import Card from "../Components/Card/Card";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { AppContext } from "../Context/AppContext";
 import { DataTypes } from "../Types/DataTypes";
 

@@ -9,7 +9,7 @@ const useFetchByID = (url: string | number) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${url}`); // Replace with your backend endpoint
+        const response = await axios.get(`${url}`); 
         setData(response.data.data);
       } catch (err: any) {
         setError(err.message);
