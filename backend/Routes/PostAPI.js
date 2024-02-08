@@ -2,8 +2,7 @@ import express from "express";
 import { db } from "../app.js";
 // import 'fs'
 import path from "path";
-import multer from "multer";
-
+import { upload } from "../Middleware/Multer.js";
 const PostRouter = express.Router();
 
 PostRouter.get("/", async (request, response) => {
@@ -43,38 +42,20 @@ PostRouter.get("/:id", async (request, response) => {
   }
 });
 
-// const storage = multer.diskStorage({
-//   destination: "C:\\Users\\Saba\\Desktop\\GTAA\\backend\\Images",
-//   filename: (req, file, cb) => {
-//     cb(null, `${Date.now()}--${file.name}`);
-//   },
-// })
 
-// const upload = multer({ dest: 'C:\\Users\\Saba\\Desktop\\GTAA\\backend\\Images' })
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "images/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-// const upload = multer({ storage: storage });
-
-// const upload = multer({ storage: storage });
-const upload = multer({ dest: 'images/', storage:storage })
 
 
 PostRouter.post("/", upload.array('image', 10), async (request, response) => {
   try {
     // console.log(request.files);
-    console.log(request.body);
+    // console.log(request.body);
 
     const { title, date, content } = request.body;
+    const imagePaths = request.files.map(file => file.path);
 
-    db.insertPost(title, content, date);
+    db.insertPost(title, content, date, imagePaths, db.insertImageByPostID);
+
+
 
     response
       .status(201)

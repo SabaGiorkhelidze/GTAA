@@ -58,6 +58,14 @@ export const db = new DBQueries("./database/PostDatabase.db", (error) => {
 //     console.log("All posts have been successfully deleted");
 //   }
 // });
+
+// db.deleteAllImages((err) => {
+//     if (err) {
+//       console.error("Error deleting all posts:", err);
+//     } else {
+//       console.log("All posts have been successfully deleted");
+//     }
+//   });
 // app.get("/", (request, response) => {
   
 // });

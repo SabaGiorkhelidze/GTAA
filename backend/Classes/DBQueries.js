@@ -30,7 +30,7 @@ class DBQueries {
     `;
 
     this.insertImageQuery = `
-      INSERT INTO images (url, PostID) VALUES (?, ?);
+      INSERT INTO images (url, PostID) values(?, ?);
     `;
 
     this.selectAllPostsQuery = `
@@ -44,6 +44,9 @@ class DBQueries {
     this.deleteAllPostsQuery = `
     DELETE FROM posts;
   `;
+    this.deleteAllImagesQuery = `
+    DELETE FROM images
+    `;
 
     this.deletePostByIDQuery = `
         DELETE FROM posts WHERE PostID = ?;
@@ -56,6 +59,7 @@ class DBQueries {
   }
 
   // executable methods
+
   createTable() {
     this.db.run(this.createTablePostsQuery, (err) => {
       if (err) console.error(err.message);
@@ -68,14 +72,42 @@ class DBQueries {
     });
   }
 
-  insertPost(title, content, date) {
+  insertImageByPostID(image, postId) {
+    try {
+      this.db.run(this.insertImageQuery, [image, postId], function (err) {
+        if (err) {
+          console.error(
+            `Error inserting image into images table: ${err.message}`
+          );
+        } else {
+          console.log(`Image inserted into images table with post ID ${postId}`);
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  insertPost(title, content, date, images) {
+    const boundInsertImageByPostID = this.insertImageByPostID.bind(this);
+  
     this.db.run(this.insertPostQuery, [title, content, date], function (err) {
       if (err) {
         return console.error(err.message);
       }
-      console.log(`A row has been inserted with id ${this.lastID}`);
+      console.log(
+        `A row has been inserted into the posts table with id ${this.lastID}`
+      );
+  
+      const postId = this.lastID;
+  
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        boundInsertImageByPostID(image, postId);
+      }
     });
   }
+  
 
   selectAll(callback) {
     this.db.all(this.selectAllPostsQuery, (err, rows) => {
@@ -113,16 +145,28 @@ class DBQueries {
     });
   }
 
-  deletePostByID(callback, id){
-    this.db.run(this.deletePostByIDQuery, [id], (err) => {
-      if(err){
+  deleteAllImages(callback) {
+    this.db.run(this.deleteAllImagesQuery, (err) => {
+      if (err) {
         console.log(err.message)
-        callback(err)
+        callback(err);
       }else{
-        console.log(`deleted post with the ${id}`)
+        console.log('all images are deleted')
         callback(null)
       }
-    })
+    });
+  }
+
+  deletePostByID(callback, id) {
+    this.db.run(this.deletePostByIDQuery, [id], (err) => {
+      if (err) {
+        console.log(err.message);
+        callback(err);
+      } else {
+        console.log(`deleted post with the ${id}`);
+        callback(null);
+      }
+    });
   }
 }
 
