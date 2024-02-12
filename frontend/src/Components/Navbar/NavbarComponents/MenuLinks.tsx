@@ -24,8 +24,8 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
         
       >
         {/* <MenuItem to="/"></MenuItem> */}
-        <MenuItem to="/about"> ჩვენს შესახებ </MenuItem>
-        <MenuItem to="/Pricing"> ფასები </MenuItem>
+        <MenuItem to="/pages/about"> ჩვენს შესახებ </MenuItem>
+        {/* <MenuItem to="/Pricing"> ფასები </MenuItem> */}
 
         <MenuItem isLast>
           {isSigned ? (

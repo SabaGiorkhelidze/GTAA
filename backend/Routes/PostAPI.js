@@ -42,7 +42,7 @@ PostRouter.get("/:id", async (request, response) => {
               .send({ error: "Error retrieving images by post ID" });
           } else {
             // Combine post data with images and send the response
-            const postDataWithImages = { post: postByID, images };
+            const postDataWithImages = { post: postByID, images: images };
             return response.status(200).send({ data: postDataWithImages });
           }
         });
@@ -55,7 +55,7 @@ PostRouter.get("/:id", async (request, response) => {
 });
 
 
-
+const backendURL = 'http://localhost:8080'
 
 
 PostRouter.post("/", upload.array('image', 10), async (request, response) => {
@@ -64,7 +64,8 @@ PostRouter.post("/", upload.array('image', 10), async (request, response) => {
     // console.log(request.body);
 
     const { title, date, content } = request.body;
-    const imagePaths = request.files.map(file => file.path);
+    const imagePaths = request.files.map(file => `${backendURL}/${file.path}`);
+    console.log(imagePaths)
 
     db.insertPost(title, content, date, imagePaths, db.insertImageByPostID);
 

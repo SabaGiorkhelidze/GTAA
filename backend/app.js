@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use('/posts', PostRouter)
 
 export const db = new DBQueries("./database/PostDatabase.db", (error) => {
@@ -66,9 +66,9 @@ export const db = new DBQueries("./database/PostDatabase.db", (error) => {
 //       console.log("All posts have been successfully deleted");
 //     }
 //   });
-// app.get("/", (request, response) => {
+app.get("/", (request, response) => {
   
-// });
+});
 
 app.listen(8080, () => {
   console.log(`App is listening to port: 8080`);

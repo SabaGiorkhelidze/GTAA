@@ -11,14 +11,35 @@ import { useParams } from "react-router-dom";
 import useFetchByID from "../../Hooks/useFetchByID";
 import NotFound from "../404/NotFound";
 import Loader from "../Loader/Loader";
+import Carousel from "../Carousel/Carousel";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const ReadMore = () => {
   const { PostID } = useParams();
   console.log(PostID);
   const { data, loading, error } = useFetchByID(`/posts/${PostID}`);
+  // const [data, setData] = useState({});
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(`/posts/${PostID}`);
+  //       setData(response.data.data);
+  //     } catch (err: any) {
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const { post, images } = data;
-
+  console.log(images);
   const content = post && post.content ? post.content : "";
   function splitText(content) {
     if (!content || typeof content !== "string") {
@@ -54,15 +75,15 @@ const ReadMore = () => {
   if (error) {
     return <NotFound url={"/"} message={error} />;
   }
-
-  console.log(post);
+  const urls = images.map((img) => img.url);
+  console.log(urls);
   return (
-    <Container maxW={"7xl"} p="12">
+    <Container maxW={"7xl"} p={{ base: "5", md: "12" }}>
       {/* <Heading as="h1">Stories by Chakra Templates</Heading> */}
       <Box
         marginTop={{ base: "1", sm: "5" }}
         display="flex"
-        flexDirection={{ base: "column", sm: "row" }}
+        flexDirection={{ base: "column", lg: "row" }}
         justifyContent="space-between"
       >
         <Box
@@ -73,31 +94,25 @@ const ReadMore = () => {
           alignItems="center"
         >
           <Box
-            width={{ base: "100%", sm: "85%" }}
+            className=" flex md:justify-center md:items-center"
+            width={{ base: "100%", sm: "90%" }}
+            height={{ base: "300px", lg: "" }}
             zIndex="2"
             marginLeft={{ base: "0", sm: "5%" }}
-            marginTop="5%"
+            marginTop="2%"
           >
-            <Box textDecoration="none" _hover={{ textDecoration: "none" }}>
-              <Image
-                borderRadius="lg"
-                src={
-                  "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80"
-                }
-                alt="some good alt text"
-                objectFit="contain"
-              />
+            <Box
+              textDecoration="none"
+              width={"100%"}
+              height={"100%"}
+              _hover={{ textDecoration: "none" }}
+              className="flex justify-center items-center"
+            >
+              <Carousel imgURL={urls} />
             </Box>
           </Box>
-          <Box zIndex="1" width="100%" position="absolute" height="100%">
-            <Box
-              bgGradient={color}
-              backgroundSize="20px 20px"
-              opacity="0.4"
-              height="100%"
-            />
-          </Box>
         </Box>
+
         <Box
           display="flex"
           flex="1"

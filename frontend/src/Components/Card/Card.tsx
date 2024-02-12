@@ -25,7 +25,7 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
     return shortenedContent;
   };
   const handleNavigate = (PostID: string | number) =>
-    navigate(`posts/${PostID}`);
+    navigate(`/pages/posts/${PostID}`);
   return (
     <Center py={6}>
       <Box
