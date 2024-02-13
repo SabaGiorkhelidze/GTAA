@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import { AppContext } from "../../Context/AppContext";
+import AdminForm from "../AdminForm/AdminForm";
 
 // interface SignInModalPropTypes {
 //   setIsSigned: () => void;
@@ -27,7 +28,7 @@ const SignInModal = ({}) => {
   const { setIsSigned } = useContext(AppContext);
   return (
     <>
-      <Button onClick={onOpen} color={'white'} bg="blue.700" >
+      <Button onClick={onOpen} color={"white"} bg="blue.700">
         ადმინი
       </Button>
 
@@ -36,7 +37,9 @@ const SignInModal = ({}) => {
         <ModalContent>
           <ModalHeader>Title</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{/* log in form */}</ModalBody>
+          <ModalBody>
+            <AdminForm />
+          </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="red" mr={3} onClick={onClose}>
@@ -46,7 +49,6 @@ const SignInModal = ({}) => {
               colorScheme="green"
               onClick={() => {
                 setIsSigned(true);
-                
               }}
             >
               Sign in

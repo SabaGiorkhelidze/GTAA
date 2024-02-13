@@ -106,7 +106,7 @@ const ReadMore = () => {
               width={"100%"}
               height={"100%"}
               _hover={{ textDecoration: "none" }}
-              className="flex justify-center items-center"
+              className="flex justify-center items-center "
             >
               <Carousel imgURL={urls} />
             </Box>
@@ -118,7 +118,7 @@ const ReadMore = () => {
           flex="1"
           flexDirection="column"
           justifyContent="center"
-          marginTop={{ base: "3", sm: "0" }}
+          marginTop={{ base: "3", sm: "20", lg: '1' }}
         >
           {/* <BlogTags tags={['Engineering', 'Product']} /> */}
           <Heading marginTop="1">
@@ -128,14 +128,12 @@ const ReadMore = () => {
           </Heading>
           <Text as="p" marginTop="2" color={grayColor} fontSize="lg">
             {firstPart}
-            {/* {content} */}
           </Text>
         </Box>
       </Box>
 
       {/* <Divider marginTop="5" /> */}
-      <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
-        {/* <Heading as="h2">What we write about</Heading> */}
+      <VStack paddingTop="60px" spacing="2" alignItems="flex-start">
         <Text as="p" fontSize="lg">
           {remainingPart && remainingPart}
         </Text>

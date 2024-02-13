@@ -40,10 +40,10 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
   return (
     <Box
       position={"relative"}
-      height={{ base: "100%", lg: "350px" }}
-      width={{ base: "100%", md: "80%", lg: "500px" }}
+      height={{ base: "100%", md:'400px', lg: "400px" }}
+      width={{ base: "100%", md: "70%", lg: "500px" }}
       overflow={"hidden"}
-      className="border-4 border-red-800  rounded-lg"
+      className="border-2  rounded-lg "
     >
       {/* CSS files for react-slick */}
       <link

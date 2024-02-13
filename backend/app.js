@@ -4,6 +4,9 @@ import DBQueries from "./Classes/DBQueries.js";
 import PostRouter from "./Routes/PostAPI.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import { setPasswordHASH } from "./Middleware/Bcrypt.js";
+
+
 const app = express();
 
 app.use(express.json());
@@ -66,9 +69,13 @@ export const db = new DBQueries("./database/PostDatabase.db", (error) => {
 //       console.log("All posts have been successfully deleted");
 //     }
 //   });
+
+
 app.get("/", (request, response) => {
   
 });
+
+setPasswordHASH()
 
 app.listen(8080, () => {
   console.log(`App is listening to port: 8080`);

@@ -25,6 +25,14 @@ class DBQueries {
       );
     `;
 
+    this.createTableUsersQuery = `
+    CREATE TABLE IF NOT EXISTS users (
+      UserID INTEGER PRIMARY KEY,
+      email TEXT UNIQUE,
+      password TEXT
+    );
+  `;
+
     this.insertPostQuery = `
       INSERT INTO posts (title, content, date) VALUES (?, ?, ?);
     `;
@@ -51,6 +59,7 @@ class DBQueries {
     this.deletePostByIDQuery = `
         DELETE FROM posts WHERE PostID = ?;
   `;
+
     // this.selectImagesByPostIdQuery = `
     //   SELECT id, url FROM images WHERE PostID = ?;
     // `;
@@ -69,6 +78,11 @@ class DBQueries {
     this.db.run(this.createTableImagesQuery, (err) => {
       if (err) console.error(err.message);
       else console.log('Table "images" created');
+    });
+
+    this.db.run(this.createTableUsersQuery, (err) => {
+      if (err) console.error(err.message);
+      else console.log('Table "users" created');
     });
   }
 
@@ -183,6 +197,27 @@ class DBQueries {
         console.log("Images selected by post ID");
         callback(null, rows);
       }
+    });
+  }
+
+  insertUser(email, password) {
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err) {
+        console.error("Error hashing password:", err);
+        return;
+      }
+
+      const insertUserQuery = `
+        INSERT INTO users (email, password) VALUES (?, ?);
+      `;
+
+      this.db.run(insertUserQuery, [email, hashedPassword], (err) => {
+        if (err) {
+          console.error("Error inserting user:", err);
+          return;
+        }
+        console.log("User inserted successfully");
+      });
     });
   }
 }
