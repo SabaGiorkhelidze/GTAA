@@ -1,34 +1,49 @@
+import React, { useState, useContext } from "react";
 import {
-  Link,
-  Box,
-  Flex,
-  Text,
   Button,
-  Stack,
-  Image,
   Modal,
-  useDisclosure,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Stack,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+  useDisclosure
 } from "@chakra-ui/react";
-import { useContext } from "react";
-import { AppContext } from "../../Context/AppContext";
-import AdminForm from "../AdminForm/AdminForm";
+import axios from "axios"; 
+import { AppContext } from "../../Context/AppContext"; 
 
-// interface SignInModalPropTypes {
-//   setIsSigned: () => void;
-// }
+const SignInModal = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
+  const { setIsSigned } = useContext(AppContext); 
 
-const SignInModal = ({}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setIsSigned } = useContext(AppContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("/posts/login", { email, password });
+
+      if (response.status === 200) {
+        setIsSigned(true);
+      } else {
+        setError(response.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setError("Internal Server Error");
+    }
+  };
+
   return (
     <>
-      <Button onClick={onOpen} color={"white"} bg="blue.700">
+      <Button color={"white"} bg="blue.700" onClick={onOpen}>
         ადმინი
       </Button>
 
@@ -37,20 +52,30 @@ const SignInModal = ({}) => {
         <ModalContent>
           <ModalHeader>Title</ModalHeader>
           <ModalCloseButton />
+          {/* <form></form> */}
           <ModalBody>
-            <AdminForm />
+            <Stack spacing={4}>
+              <FormControl id="email">
+                <FormLabel>Email address</FormLabel>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </FormControl>
+              <FormControl id="password">
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </FormControl>
+              {error && <Text color="red.500">{error}</Text>}
+            </Stack>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="red" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button
-              colorScheme="green"
-              onClick={() => {
-                setIsSigned(true);
-              }}
-            >
+            <Button colorScheme="green" onClick={handleLogin}>
               Sign in
             </Button>
           </ModalFooter>

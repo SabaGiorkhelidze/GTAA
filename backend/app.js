@@ -27,6 +27,7 @@ export const db = new DBQueries("./database/PostDatabase.db", (error) => {
 
 // db.createTable();
 
+
 // ____insert Post___
 // db.insertPost(
 //   "Post 4",
@@ -70,6 +71,8 @@ export const db = new DBQueries("./database/PostDatabase.db", (error) => {
 //     }
 //   });
 
+
+// db.insertUser('admin-user@gmail.com', 'Admin@123')
 
 app.get("/", (request, response) => {
   

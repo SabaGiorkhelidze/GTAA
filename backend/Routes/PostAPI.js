@@ -1,8 +1,8 @@
 import express from "express";
 import { db } from "../app.js";
-// import 'fs'
-import path from "path";
 import { upload } from "../Middleware/Multer.js";
+import bcrypt from 'bcrypt'
+
 const PostRouter = express.Router();
 
 PostRouter.get("/", async (request, response) => {
@@ -19,7 +19,6 @@ PostRouter.get("/", async (request, response) => {
   }
 });
 
-// Modify the existing route to get post data along with associated images
 PostRouter.get("/:id", async (request, response) => {
   const id = parseInt(request.params.id);
   try {
@@ -27,21 +26,18 @@ PostRouter.get("/:id", async (request, response) => {
       return response.status(500).send({ error: "Server error, invalid ID" });
     }
 
-    // Use the DBQueries instance to fetch post data by ID
     db.selectByID(id, async (err, postByID) => {
       if (err) {
         return response
           .status(500)
           .send({ error: "Error retrieving data by id" });
       } else {
-        // Fetch images associated with the post ID
         db.selectImagesByPostID(id, (err, images) => {
           if (err) {
             return response
               .status(500)
               .send({ error: "Error retrieving images by post ID" });
           } else {
-            // Combine post data with images and send the response
             const postDataWithImages = { post: postByID, images: images };
             return response.status(200).send({ data: postDataWithImages });
           }
@@ -77,6 +73,36 @@ PostRouter.post("/", upload.array('image', 10), async (request, response) => {
   } catch (error) {
     console.error("Error creating post:", error);
     response.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+PostRouter.post("/login", async (req, res) => {
+  // console.log(req.body)
+  try {
+    const { email, password } = req.body;
+    // console.log(email, password)
+
+    db.getUserByEmail(email, async (err, user) => {
+      if (err) {
+        console.error("Error getting user by email:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (!user || user.email !== email) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const passwordMatches = await bcrypt.compare(password, user.password);
+
+      if (passwordMatches) {
+        return res.status(200).json({ message: "Login successful" });
+      } else {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+    });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

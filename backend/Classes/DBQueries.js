@@ -1,5 +1,6 @@
 import { json } from "express";
 import pkg from "sqlite3";
+import bcrypt from 'bcrypt'
 const { Database } = pkg;
 
 class DBQueries {
@@ -218,6 +219,21 @@ class DBQueries {
         }
         console.log("User inserted successfully");
       });
+    });
+  }
+
+  getUserByEmail(email, callback) {
+    const selectUserByEmailQuery = `
+      SELECT * FROM users WHERE email = ?;
+    `;
+
+    this.db.get(selectUserByEmailQuery, [email], (err, row) => {
+      if (err) {
+        console.error("Error getting user by email:", err);
+        callback(err, null);
+      } else {
+        callback(null, row);
+      }
     });
   }
 }

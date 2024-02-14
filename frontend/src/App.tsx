@@ -29,7 +29,7 @@ function App() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
         flex: 1,
       }}
       className=" app"
