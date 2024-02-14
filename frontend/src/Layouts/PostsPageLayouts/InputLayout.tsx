@@ -1,12 +1,8 @@
-import { Center, Flex, Box, Text, Button } from "@chakra-ui/react";
-import CustomTextArea from "../../Components/Input/CustomTextArea";
+import { Flex, Box, Button } from "@chakra-ui/react";
 import InputRowLayout from "./InputRowLayout";
 import Header from "../../Components/PostHeader/Header";
 import TextAreaBox from "../../Components/TextAreaBox/TextAreaBox";
 import Dropzone from "../../Components/DropZone/Dropzone";
-// import { DropzoneButton } from "../../Components/Dropzone/Dropzone";
-import { useContext } from "react";
-import { PostContext } from "../../Context/PostContext";
 
 const InputLayout = () => {
   return (

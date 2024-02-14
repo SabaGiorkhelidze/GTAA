@@ -1,4 +1,3 @@
-import React from "react";
 import { Badge, useColorModeValue } from "@chakra-ui/react";
 const CustomBadge = ({ badgeTitle }: { badgeTitle: string }) => {
   return (

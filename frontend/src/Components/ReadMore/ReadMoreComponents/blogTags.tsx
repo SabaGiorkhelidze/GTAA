@@ -1,14 +1,14 @@
-import { HStack, SpaceProps, Tag } from "@chakra-ui/react";
+import { HStack, Tag } from "@chakra-ui/react";
 
 interface Props {
   marginTop?: number;
   tags: any[];
 }
 
-interface IBlogTags {
-  tags: Array<string>;
-  marginTop?: SpaceProps["marginTop"];
-}
+// interface IBlogTags {
+//   tags: Array<string>;
+//   marginTop?: SpaceProps["marginTop"];
+// }
 const BlogTags = (props: Props) => {
   const { marginTop = 0, tags } = props;
 

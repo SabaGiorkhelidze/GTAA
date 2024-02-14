@@ -2,12 +2,12 @@ import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 interface NotFoundPropTypes {
-    url: string,
-    message: string
+  url: string;
+  message: string;
 }
 
-const NotFound = ({url, message}: NotFoundPropTypes) => {
-    const navigate = useNavigate()
+const NotFound = ({ url, message }: NotFoundPropTypes) => {
+  const navigate = useNavigate();
   return (
     <Box textAlign="center" py={10} px={6}>
       <Heading

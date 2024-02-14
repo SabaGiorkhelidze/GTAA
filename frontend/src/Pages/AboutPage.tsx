@@ -1,5 +1,3 @@
-import React from 'react'
-import HomePageIntro from '../Components/AboutUs/About'
 import About from '../Components/AboutUs/About'
 import TeamCardLayout from '../Layouts/TeamCardLayout'
 

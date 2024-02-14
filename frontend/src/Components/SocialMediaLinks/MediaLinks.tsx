@@ -1,5 +1,4 @@
-import { Center, Flex, Link, Text } from "@chakra-ui/react";
-import React from "react";
+import { Center, Link, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 interface MediaLinksPropTypes {
     url: string,

@@ -1,11 +1,8 @@
-import React from "react";
 import TeamCard from "../Components/Card/TeamCard";
 import { Center, SimpleGrid, Text } from "@chakra-ui/react";
 import { TeamData, TeamDataTypes } from "../Data/TeamData";
 
 const TeamCardLayout = () => {
-  const numCards = 4; // Change this to the number of cards you want to test
-
   return (
     <div className=" bg-gray-400">
       <Center mb={6} mt={16} pt={4}>

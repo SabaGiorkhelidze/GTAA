@@ -1,4 +1,3 @@
-import React from "react";
 import { Textarea } from "@chakra-ui/react";
 import { TextAreaPropTypes } from "../../Types/InputTypes";
 

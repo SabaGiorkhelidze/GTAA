@@ -1,18 +1,6 @@
 import React from "react";
-import {
-  Box,
-  Stack,
-  AspectRatio,
-  IconButton,
-  Heading,
-  Text,
-  Container,
-  Image,
-  useBreakpointValue,
-} from "@chakra-ui/react";
-// Here we have used react-icons package for the icons
+import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
-// And react-slick as our Carousel Lib
 import Slider from "react-slick";
 
 // Settings for the slider
@@ -40,12 +28,11 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
   return (
     <Box
       position={"relative"}
-      height={{ base: "100%", md:'400px', lg: "400px" }}
+      height={{ base: "100%", md: "400px", lg: "400px" }}
       width={{ base: "100%", md: "70%", lg: "500px" }}
       overflow={"hidden"}
       className="border-2  rounded-lg "
     >
-      {/* CSS files for react-slick */}
       <link
         rel="stylesheet"
         type="text/css"
@@ -94,9 +81,7 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
             }}
             src={image}
             key={index}
-
           />
-
         ))}
       </Slider>
     </Box>

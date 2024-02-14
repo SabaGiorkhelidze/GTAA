@@ -1,7 +1,6 @@
-import { Link, Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import { NavbarMenuLinksPropTypes } from "../../../Types/NavbarTypes";
 import MenuItem from "./MenuItem";
-import { colors } from "../../../Utils/ThemeColors";
 import SignInModal from "../../Modal/SignInModal";
 import { useContext } from "react";
 import { AppContext } from "../../../Context/AppContext";
@@ -13,7 +12,7 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
-      color={'blue.700'}
+      color={"blue.700"}
     >
       <Stack
         spacing={8}
@@ -21,11 +20,8 @@ const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
         justify={["center", "space-between", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
-        
       >
-        {/* <MenuItem to="/"></MenuItem> */}
         <MenuItem to="/pages/about"> ჩვენს შესახებ </MenuItem>
-        {/* <MenuItem to="/Pricing"> ფასები </MenuItem> */}
 
         <MenuItem isLast>
           {isSigned ? (

@@ -3,12 +3,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
-  Button,
-  Text,
 } from "@chakra-ui/react";
-import React from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 const AdminForm = () => {
   return (
     <div>

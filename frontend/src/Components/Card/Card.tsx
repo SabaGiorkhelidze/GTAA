@@ -8,7 +8,6 @@ import {
   Heading,
   Text,
   Stack,
-  Avatar,
   useColorModeValue,
   Button,
 } from "@chakra-ui/react";
@@ -18,10 +17,9 @@ import { DataTypes } from "../../Types/DataTypes";
 
 export default function Card({ PostID, title, content, date }: DataTypes) {
   const navigate = useNavigate();
-  console.log(PostID);
   const shortenContent = (content) => {
-    const words = content.split(' ');
-    const shortenedContent = words.slice(0, 43).join(' ');
+    const words = content.split(" ");
+    const shortenedContent = words.slice(0, 43).join(" ");
     return shortenedContent;
   };
   const handleNavigate = (PostID: string | number) =>
@@ -31,7 +29,6 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
       <Box
         maxW={"345px"}
         w={"full"}
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"2xl"}
         rounded={"md"}
@@ -69,13 +66,19 @@ export default function Card({ PostID, title, content, date }: DataTypes) {
           {/* <Avatar src={'https://avatars0.githubusercontent.com/u/1164541?v=4'} /> */}
           <Stack
             direction={"row"}
-            spacing={150}
+            spacing={120}
             align={"center"}
-            // justify={'between'}
+            justify={"around"}
             fontSize={"sm"}
           >
             {/* <Text fontWeight={600}>Achim Rolle</Text> */}
-            <Text color={"gray.500"}> date </Text>
+            <Text color={"gray.500"}>
+              {" "}
+              {new Date(date)
+                .toLocaleDateString("en-GB")
+                .split("/")
+                .join("/")}{" "}
+            </Text>
             <Button
               bg="blue.700"
               color={"white"}

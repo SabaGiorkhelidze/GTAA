@@ -3,29 +3,22 @@ import {
   Avatar,
   Box,
   Center,
-  Text,
   Stack,
   Button,
-  Link,
-  Badge,
   useColorModeValue,
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverAnchor,
   Flex,
 } from "@chakra-ui/react";
 
-import { socialMediaData } from "../../Data/SocMediaData.ts";
 import MediaLinks from "../SocialMediaLinks/MediaLinks";
 import IconBox from "../SocialMediaLinks/IconBox.tsx";
 import CustomBadge from "../Badge/CustomBadge.tsx";
-import { TeamData, TeamDataTypes } from "../../Data/TeamData.ts";
+import { TeamDataTypes } from "../../Data/TeamData.ts";
 export default function TeamCard({img, fullName, position, contactInfo}: TeamDataTypes) {
   return (
     <Center py={6}>
@@ -61,19 +54,8 @@ export default function TeamCard({img, fullName, position, contactInfo}: TeamDat
           {fullName}
         </Heading>
 
-        {/* <Text
-          textAlign={"center"}
-          color={useColorModeValue("gray.700", "gray.400")}
-          px={3}
-        >
-          Actress, musician, songwriter and artist. PM for work inquires or me
-          in your posts
-        </Text> */}
 
         <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-          {/* {["art", "music", "photo"].map((item: string) => (
-            <CustomBadge badgeTitle={item} />
-          ))} */}
           <CustomBadge badgeTitle={position} />
         </Stack>
 

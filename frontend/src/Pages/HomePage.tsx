@@ -1,4 +1,3 @@
-import React from "react";
 import CardLayout from "../Layouts/CardLayout";
 import Header from "../Components/Header/Header";
 import HomePageIntro from "../Components/Intro/HomePageIntro";

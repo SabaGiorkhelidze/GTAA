@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import Card from "../Components/Card/Card";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import { DataTypes } from "../Types/DataTypes";
 
@@ -13,11 +13,10 @@ const CardLayout = () => {
         data-type="Grid"
         gap={4}
         mb="6"
-
-        // mt={10}
       >
         {data.map((item: DataTypes) => (
           <Card
+            // image={item.}
             PostID={item.PostID}
             title={item.title}
             content={item.content}

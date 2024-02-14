@@ -1,14 +1,13 @@
 // import { useState } from 'react'
 // import { Modal } from '@chakra-ui/react'
-import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import DefaultNavigation from "./Routes/DefaultNavigation";
-import SignInModal from "./Components/Modal/SignInModal";
+// import SignInModal from "./Components/Modal/SignInModal";
 import { AppContext } from "./Context/AppContext";
 import { useState } from "react";
 import useFetch from "./Hooks/useFetch";
 import Loader from "./Components/Loader/Loader";
-import CardLayout from "./Layouts/CardLayout";
+// import CardLayout from "./Layouts/CardLayout";
 import NotFound from "./Components/404/NotFound";
 import Footer from "./Components/Footer/Footer";
 
@@ -19,7 +18,7 @@ function App() {
 
   if (loading) return <Loader />;
 
-  if (error) return <NotFound url="/" />;
+  if (error) return <NotFound url="/" message={error}/>;
 
   return (
     <div

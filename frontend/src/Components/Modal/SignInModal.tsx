@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   Button,
   Modal,
@@ -52,7 +52,7 @@ const SignInModal = () => {
         <ModalContent>
           <ModalHeader>Title</ModalHeader>
           <ModalCloseButton />
-          {/* <form></form> */}
+
           <ModalBody>
             <Stack spacing={4}>
               <FormControl id="email">
