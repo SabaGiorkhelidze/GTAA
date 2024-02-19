@@ -23,6 +23,7 @@ PostRouter.get("/:id", async (request, response) => {
     }
 
     const postByID = await db.selectByID(id);
+    // console.log(postByID)
     const images = await db.selectImagesByPostID(id);
     const postDataWithImages = { post: postByID, images: images };
     return response.status(200).send({ data: postDataWithImages });

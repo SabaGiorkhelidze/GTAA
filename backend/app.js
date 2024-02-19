@@ -16,18 +16,16 @@ const __dirname = path.dirname(__filename);
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/posts", PostRouter);
 
-// Initialize DBQueries with PostgreSQL parameters
 export const db = new DBQueries();
 
-// Call createTable method to create tables upon initialization
-// db.createTable();
+db.createTable();
 
 app.get("/", (request, response) => {
-  // Your root route logic here
 });
 
-// Ensure setPasswordHASH() is called after DBQueries initialization
-setPasswordHASH();
+// setPasswordHASH();
+
+// db.deleteAllPosts()
 
 app.listen(8080, () => {
   console.log(`App is listening to port: 8080`);

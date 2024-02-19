@@ -50,7 +50,7 @@ const ReadMore = () => {
     return <NotFound url={"/"} message={error} />;
   }
   const urls = images.map((img) => img.url);
-  console.log(urls);
+  // console.log(urls);
   return (
     <Container maxW={"7xl"} p={{ base: "5", md: "12" }}>
       {/* <Heading as="h1">Stories by Chakra Templates</Heading> */}

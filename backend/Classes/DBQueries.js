@@ -86,39 +86,44 @@ class DBQueries {
 
   async insertImageByPostID(image, postId) {
     try {
+      console.log("Inserting image with postId:", postId);
       await this.pool.query(this.insertImageQuery, [image, postId]);
       console.log(`Image inserted into images table with post ID ${postId}`);
     } catch (err) {
       console.error("Error inserting image into images table:", err.message);
+      throw err;
     }
   }
 
   async insertPost(title, content, date, images) {
     const client = await this.pool.connect();
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
-      const result = await client.query(this.insertPostQuery, [title, content, date]);
+      const result = await client.query(this.insertPostQuery, [
+        title,
+        content,
+        date,
+      ]);
       const postId = result.rows[0].postid;
-
+      console.log(postId)
       if (!postId) {
         throw new Error("Error inserting post: No rows returned");
       }
 
       for (const image of images) {
-        await this.insertImageByPostID( image, postId);
+        await this.insertImageByPostID(image, postId);
       }
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
     } catch (err) {
-      await client.query('ROLLBACK');
-      console.error('Error inserting post:', err.message);
-      throw err; 
+      await client.query("ROLLBACK");
+      console.error("Error inserting post:", err.message);
+      throw err;
     } finally {
       client.release();
     }
   }
-  
 
   async selectAll() {
     try {
