@@ -15,31 +15,31 @@ class DBQueries {
     // Query Commands
     this.createTablePostsQuery = `
       CREATE TABLE IF NOT EXISTS posts (
-        PostID SERIAL PRIMARY KEY,
+        PostID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         title TEXT,
-        content TEXT,
-        date DATE
+        "content" TEXT,
+        "date" DATE
       )
     `;
 
     this.createTableImagesQuery = `
       CREATE TABLE IF NOT EXISTS images (
-        ImageID SERIAL PRIMARY KEY,
+        ImageID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         url TEXT,
-        PostID INTEGER REFERENCES posts(PostID)
+        PostID INTEGER REFERENCES posts(PostID) INITIALLY DEFERRED
       )
     `;
 
     this.createTableUsersQuery = `
       CREATE TABLE IF NOT EXISTS users (
-        UserID SERIAL PRIMARY KEY,
+        UserID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         email TEXT UNIQUE,
         password TEXT
       )
     `;
 
     this.insertPostQuery = `
-    INSERT INTO posts (title, content, date)
+    INSERT INTO posts (title, "content", "date")
     VALUES ($1, $2, $3)
     RETURNING PostID
     `;
@@ -65,7 +65,7 @@ class DBQueries {
     `;
 
     this.deletePostByIDQuery = `
-      DELETE FROM posts WHERE PostID = $1
+      DELETE FROM posts WHERE PostID = $1 
     `;
   }
 
@@ -84,15 +84,12 @@ class DBQueries {
     }
   }
 
-  async insertImageByPostID(image, postId) {
-    try {
+  async insertImageByPostID(client, image, postId) {
+
       console.log("Inserting image with postId:", postId);
-      await this.pool.query(this.insertImageQuery, [image, postId]);
+      await client.query(this.insertImageQuery, [image, postId]);
       console.log(`Image inserted into images table with post ID ${postId}`);
-    } catch (err) {
-      console.error("Error inserting image into images table:", err.message);
-      throw err;
-    }
+   
   }
 
   async insertPost(title, content, date, images) {
@@ -112,7 +109,7 @@ class DBQueries {
       }
 
       for (const image of images) {
-        await this.insertImageByPostID(image, postId);
+        await this.insertImageByPostID(client,image, postId);
       }
 
       await client.query("COMMIT");
