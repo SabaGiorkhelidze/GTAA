@@ -35,7 +35,7 @@ PostRouter.get("/:id", async (request, response) => {
 
 
 const backendURL = 'http://localhost:8080'
-
+const minIO = 'http://localhost:9001'
 
 PostRouter.post("/", upload.array('image', 10), async (request, response) => {
   try {
