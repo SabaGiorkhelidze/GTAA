@@ -67,6 +67,9 @@ class DBQueries {
     this.deletePostByIDQuery = `
       DELETE FROM posts WHERE PostID = $1 
     `;
+    this.selectAllImageQuery = `
+      SELECT * from images
+    `;
   }
 
   async createTable() {
@@ -83,13 +86,31 @@ class DBQueries {
       console.error("Error creating table:", err.message);
     }
   }
+  async selectAllImage() {
+    try {
+      const images = await this.pool.query(this.selectAllImageQuery)
+      console.log('images are selected')
+      const uniquePostIDs = new Set();
 
+    // Use filter to efficiently iterate and keep only unique objects
+    const filteredImages = images.rows.filter(image => {
+      if (!uniquePostIDs.has(image.postid)) {
+        uniquePostIDs.add(image.postid); // Add to the Set for future checks
+        return true; // Keep this image
+      }
+      return false; // Skip duplicate with same postID
+    });
+
+    // console.log('filtered images:', filteredImages);
+    return filteredImages;
+    } catch (error) {
+      console.log('Catched error: ', error)
+    }
+  }
   async insertImageByPostID(client, image, postId) {
-
-      console.log("Inserting image with postId:", postId);
-      await client.query(this.insertImageQuery, [image, postId]);
-      console.log(`Image inserted into images table with post ID ${postId}`);
-   
+    console.log("Inserting image with postId:", postId);
+    await client.query(this.insertImageQuery, [image, postId]);
+    console.log(`Image inserted into images table with post ID ${postId}`);
   }
 
   async insertPost(title, content, date, images) {
@@ -103,13 +124,13 @@ class DBQueries {
         date,
       ]);
       const postId = result.rows[0].postid;
-      console.log(postId)
+      console.log(postId);
       if (!postId) {
         throw new Error("Error inserting post: No rows returned");
       }
 
       for (const image of images) {
-        await this.insertImageByPostID(client,image, postId);
+        await this.insertImageByPostID(client, image, postId);
       }
 
       await client.query("COMMIT");
@@ -126,6 +147,7 @@ class DBQueries {
     try {
       const result = await this.pool.query(this.selectAllPostsQuery);
       console.log("All rows selected");
+      console.log(result.rows)
       return result.rows;
     } catch (err) {
       console.error("Error selecting all posts:", err.message);

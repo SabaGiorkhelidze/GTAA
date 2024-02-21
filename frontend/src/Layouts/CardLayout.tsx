@@ -16,7 +16,7 @@ const CardLayout = () => {
       >
         {data.map((item: DataTypes) => (
           <Card
-            // image={item.}
+            image={item.images[0]?.url}
             PostID={item.postid}
             title={item.title}
             content={item.content}
