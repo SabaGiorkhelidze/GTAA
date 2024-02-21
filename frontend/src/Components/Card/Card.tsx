@@ -44,7 +44,8 @@ export default function Card({ PostID, image, title, content, date }: DataTypes)
           pos={"relative"}
         >
           <Image
-            src={image}
+            // src={image}
+            src={'http://127.0.0.1:8080/posts/image/1708525177266-image.png'}
             // fill={true}
             alt="Example"
           />

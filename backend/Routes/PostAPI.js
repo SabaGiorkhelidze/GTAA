@@ -2,13 +2,59 @@ import express from "express";
 import { db } from "../app.js";
 // import { upload } from "../Middleware/Multer.js";
 import bcrypt from "bcrypt";
-
+import { Readable } from 'stream';
 import multer from "multer";
-import { Client } from "minio";
+// import { Client } from "minio";
+import {
+  S3Client,
+  PutObjectCommand,
+  CreateBucketCommand,
+  DeleteObjectCommand,
+  DeleteBucketCommand,
+  paginateListObjectsV2,
+  GetObjectCommand,
+} from "@aws-sdk/client-s3";
 import path from "path";
 import fs from "fs";
 
 const PostRouter = express.Router();
+
+const minIOURL = "http://127.0.0.1:9000";
+
+// Create an instance of the S3 service
+const s3Client = new S3Client({
+  region: 'eu-central-1',
+  endpoint: minIOURL,
+  credentials: {
+    accessKeyId:'dev',
+    secretAccessKey:'password123'
+  }
+});
+
+
+PostRouter.get("/image/:id", async (request, response) => {
+  const id = request.params.id;
+  
+  try {
+    const params = {
+      Bucket: 'saba',
+      Key: id
+    };
+    
+    const command = new GetObjectCommand(params);
+    const { Body } = await s3Client.send(command);
+
+    // Set the appropriate content type for the response
+    response.setHeader('Content-Type', 'image/png');
+    response.setHeader('Content-Disposition', `attachment; filename="${id}"`);
+
+    // Pipe the data from the S3 stream to the Express response
+    Readable.from(Body).pipe(response);
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).send({ error: error.message });
+  }
+});
 
 PostRouter.get("/", async (request, response) => {
   try {
@@ -61,26 +107,17 @@ PostRouter.get("/:id", async (request, response) => {
 });
 
 // const backendURL = 'http://localhost:8080'
-const minIOURL = "http://localhost:9001";
 
-const client = new Client({
-  useSSL: false,
-  endPoint: "localhost",
-  port: 9000,
-  // endPoint: 'localhost:9001',
-  accessKey: "dev",
-  secretKey: "password123",
-});
+// minio
+// const client = new Client({
+//   useSSL: false,
+//   endPoint: "localhost",
+//   port: 9000,
+//   // endPoint: 'localhost:9001',
+//   accessKey: "dev",
+//   secretKey: "password123",
+// });
 
-// try {
-//   const buckets = await client.listBuckets()
-//   console.log('Success', buckets)
-// } catch (err) {
-//   console.log(err.message)
-// }
-
-//await minioClient.fPutObject(bucket, destinationObject, sourceFile, metaData)
-// console.log('File ' + sourceFile + ' uploaded as object ' + destinationObject + ' in bucket ' + bucket)
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -95,6 +132,9 @@ const storage = multer.diskStorage({
     cb(null, `${now}-${file.fieldname}${ext}`);
   },
 });
+
+//  const res = await client.listObjects('saba', '', false)
+
 const upload = multer({ storage: storage });
 
 PostRouter.post("/", upload.array("image", 10), async (request, response) => {
@@ -103,10 +143,18 @@ PostRouter.post("/", upload.array("image", 10), async (request, response) => {
 
     const promises = request.files.map(async (file) => {
       const filename = file.filename;
+      const mimetype = file.mimetype;
       const stream = fs.createReadStream(file.path);
 
       try {
-        await client.putObject("saba", filename, stream);
+        // Upload image
+        const command = new PutObjectCommand({
+          Bucket: 'saba',
+          Key: filename,
+          Body: stream,
+          ContentType: mimetype,
+        });
+        const fil = await s3Client.send(command);
         console.log(`File ${filename} uploaded to MinIO bucket`);
       } catch (err) {
         console.error(`Error uploading file ${filename}:`, err);

@@ -42,6 +42,24 @@ app.get("/", (request, response) => {});
 //   console.log(err.message)
 // }
 
+// const client = new Client({
+//   useSSL: false,
+//   endPoint: "localhost",
+//   port: 9000,
+//   // endPoint: 'localhost:9001',
+//   accessKey: "dev",
+//   secretKey: "password123",
+// });
+
+// try {
+//   let data = [];
+//   const objects = client.listObjects("saba", "", false);
+//   objects.on("data", function (obj) {
+//     data.push(obj);
+//   });
+//   objects.on('end', function (obj) {console.log('list of objects: ', data)})
+// } catch (error) {}
+
 app.listen(8080, () => {
   console.log(`App is listening to port: 8080`);
 });
