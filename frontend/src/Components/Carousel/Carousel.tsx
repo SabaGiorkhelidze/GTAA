@@ -2,7 +2,7 @@ import React from "react";
 import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from "react-slick";
-
+import img from '../../assets/logo.png'
 // Settings for the slider
 const settings = {
   dots: true,
@@ -70,16 +70,16 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
         <BiRightArrowAlt size="40px" />
       </IconButton>
       {/* Slider */}
-      <Slider {...settings} ref={(slider) => setSlider(slider)}>
+      <Slider {...settings} ref={(slider) => setSlider(slider)} centerMode={true} >
         {imageUrls.map((image, index) => (
           <img
             style={{
               backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
+              backgroundSize: "100%",
               backgroundPosition: "center",
               position: "relative",
             }}
-            src={image}
+            src={img}
             key={index}
           />
         ))}

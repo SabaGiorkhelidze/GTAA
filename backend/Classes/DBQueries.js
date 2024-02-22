@@ -147,7 +147,7 @@ class DBQueries {
     try {
       const result = await this.pool.query(this.selectAllPostsQuery);
       console.log("All rows selected");
-      console.log(result.rows)
+      // console.log(result.rows)
       return result.rows;
     } catch (err) {
       console.error("Error selecting all posts:", err.message);

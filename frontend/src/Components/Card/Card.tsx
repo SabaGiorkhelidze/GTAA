@@ -11,7 +11,7 @@ import {
   useColorModeValue,
   Button,
 } from "@chakra-ui/react";
-
+import Imagesrc from '../../assets/homeImg.jpeg'
 import { useNavigate } from "react-router-dom";
 import { DataTypes } from "../../Types/DataTypes";
 
@@ -19,7 +19,7 @@ export default function Card({ PostID, image, title, content, date }: DataTypes)
   const navigate = useNavigate();
   const shortenContent = (content) => {
     const words = content.split(" ");
-    const shortenedContent = words.slice(0, 43).join(" ");
+    const shortenedContent = words.slice(0, 30).join(" ");
     return shortenedContent;
   };
   const handleNavigate = (PostID: string | number) =>
@@ -44,8 +44,8 @@ export default function Card({ PostID, image, title, content, date }: DataTypes)
           pos={"relative"}
         >
           <Image
-            // src={image}
-            src={'http://127.0.0.1:8080/posts/image/1708525177266-image.png'}
+            src={image}
+            // src={''}
             // fill={true}
             alt="Example"
           />

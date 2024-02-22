@@ -26,39 +26,7 @@ app.get("/", (request, response) => {});
 
 // db.deleteAllPosts()
 
-// const client = new Client({
-//   useSSL: false,
-//   endPoint: "localhost",
-//   port: 9000,
-//   // endPoint: 'localhost:9001',
-//   accessKey: "dev",
-//   secretKey: "password123",
-// });
-
-// try {
-//   const buckets = await client.listBuckets()
-//   console.log('Success', buckets)
-// } catch (err) {
-//   console.log(err.message)
-// }
-
-// const client = new Client({
-//   useSSL: false,
-//   endPoint: "localhost",
-//   port: 9000,
-//   // endPoint: 'localhost:9001',
-//   accessKey: "dev",
-//   secretKey: "password123",
-// });
-
-// try {
-//   let data = [];
-//   const objects = client.listObjects("saba", "", false);
-//   objects.on("data", function (obj) {
-//     data.push(obj);
-//   });
-//   objects.on('end', function (obj) {console.log('list of objects: ', data)})
-// } catch (error) {}
+// db.insertUser('admin-user@gmail.com', 'Admin@123')
 
 app.listen(8080, () => {
   console.log(`App is listening to port: 8080`);
