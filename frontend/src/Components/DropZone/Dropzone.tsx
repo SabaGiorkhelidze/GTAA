@@ -43,6 +43,9 @@ const Dropzone = () => {
               multiple
             />
           </label>
+          <div>
+            {/* addfile preview */}
+          </div>
         </div>
       </div>
     </div>

@@ -40,13 +40,11 @@ export default function Card({ PostID, image, title, content, date }: DataTypes)
           bg={"gray.100"}
           mt={-6}
           mx={-6}
-          mb={6}
+          mb={4}
           pos={"relative"}
         >
           <Image
             src={image}
-            // src={''}
-            // fill={true}
             alt="Example"
           />
         </Box>

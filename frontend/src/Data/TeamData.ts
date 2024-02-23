@@ -1,7 +1,7 @@
 import {
   AiOutlineFacebook,
   AiOutlineInstagram,
-  AiOutlinePhone,
+  AiOutlineGoogle ,
 } from "react-icons/ai";
 import { IconType } from "react-icons";
 import zura from "../assets/zura.jpeg";
@@ -18,7 +18,7 @@ interface contactInfoDataTypes {
 }
 
 interface MediaLinksPropTypes {
-  url: string;
+  // url: string;
   Icon: IconType;
   name: string;
 }
@@ -30,9 +30,9 @@ export const TeamData: TeamDataTypes[] = [
     position: "თავმჯდომარე",
     contactInfo: [
       {
-        url: "https://www.facebook.com/first-person",
-        Icon: AiOutlineFacebook,
-        name: "First Person",
+        // url: "https://www.facebook.com/first-person",
+        Icon: AiOutlineGoogle,
+        name: "zuraberuashvili@gmail.com",
       },
     ],
   },

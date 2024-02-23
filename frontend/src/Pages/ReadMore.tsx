@@ -7,10 +7,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import useFetchByID from "../../Hooks/useFetchByID";
-import NotFound from "../404/NotFound";
-import Loader from "../Loader/Loader";
-import Carousel from "../Carousel/Carousel";
+import useFetchByID from "../Hooks/useFetchByID";
+import NotFound from "../Components/404/NotFound";
+import Loader from "../Components/Loader/Loader";
+import Carousel from "../Components/Carousel/Carousel";
 
 const ReadMore = () => {
   const { PostID } = useParams();
@@ -18,10 +18,9 @@ const ReadMore = () => {
   const { data, loading, error } = useFetchByID(`/posts/${PostID}`);
 
   const { post, images } = data;
-  
+
   const content = post && post.content ? post.content : "";
-  
-  
+
   function splitText(content) {
     if (!content || typeof content !== "string") {
       console.error("Invalid content");
@@ -50,10 +49,9 @@ const ReadMore = () => {
     return <NotFound url={"/"} message={error} />;
   }
   const urls = images.map((img) => img.url);
-  // console.log(urls);
+
   return (
     <Container maxW={"7xl"} p={{ base: "5", md: "12" }}>
-      {/* <Heading as="h1">Stories by Chakra Templates</Heading> */}
       <Box
         marginTop={{ base: "1", sm: "5" }}
         display="flex"

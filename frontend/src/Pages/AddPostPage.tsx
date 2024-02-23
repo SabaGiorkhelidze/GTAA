@@ -50,6 +50,7 @@ const AddPostPage = () => {
       value={{
         title,
         date,
+        file,
         setDate,
         setTitle,
         handleDateChange,
