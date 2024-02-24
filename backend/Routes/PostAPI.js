@@ -1,7 +1,7 @@
 import express from "express";
 import { db } from "../app.js";
 import { Readable } from "stream";
-import { s3Client, minIOURL } from "../Middleware/S3.js";
+import { s3Client } from "../Middleware/S3.js";
 import { upload } from "../Middleware/Multer.js";
 import fs from "fs";
 import { authenticateJWT, JWT_SECRET } from "../Middleware/JWT.js";
@@ -11,8 +11,6 @@ import cookieParser from "cookie-parser";
 
 const PostRouter = express.Router();
 PostRouter.use(cookieParser());
-
-
 
 PostRouter.get("/image/:id", async (request, response) => {
   const id = request.params.id;
@@ -38,7 +36,7 @@ PostRouter.get("/image/:id", async (request, response) => {
 });
 
 function getPostImageUrl(key) {
-  return `http://localhost:8080/posts/image/${key}`
+  return `http://localhost:8080/posts/image/${key}`;
 }
 
 PostRouter.get("/", async (request, response) => {
@@ -50,40 +48,24 @@ PostRouter.get("/", async (request, response) => {
 
     const postImagesMap = images.reduce((mp, image) => {
       const existing = mp.get(image.postid) || [];
-      return mp.set(image.postid, [...existing, {
-        ...image,
-        url: getPostImageUrl(image.url)
-      }])
+      return mp.set(image.postid, [
+        ...existing,
+        {
+          ...image,
+          url: getPostImageUrl(image.url),
+        },
+      ]);
     }, new Map());
 
-    const result = Posts.map( item => {
-      const images =  postImagesMap.get(item.postid) || []
-      return  {
+    const result = Posts.map((item) => {
+      const images = postImagesMap.get(item.postid) || [];
+      return {
         ...item,
         thumbnail: images[0] || "",
-        images
-      }
-    })
+        images,
+      };
+    });
 
-    // const postImagesMap = new Map();
-    // images.forEach((image) => {
-    //   if (!postImagesMap.has(image.postid)) {
-    //     postImagesMap.set(image.postid, []);
-    //   }
-    //   postImagesMap.get(image.postid).push(image);
-    // });
-
-    // Modify each post object to include image data (Option 1)
-    // Posts.forEach((post) => {
-    //   if (postImagesMap.has(post.postid)) {
-    //     post.images = postImagesMap.get(post.postid);
-    //   } else {
-    //     post.images = [];
-    //   }
-    // });
-
-    // Send only the aligned posts (Option 1)
-    // const allPost = { posts: Posts };
     return response.status(200).send({ data: result });
   } catch (err) {
     console.log(err.message);
@@ -99,14 +81,13 @@ PostRouter.get("/:id", async (request, response) => {
     }
 
     const postByID = await db.selectByID(id);
-    // console.log(postByID)
     const images = await db.selectImagesByPostID(id);
-    const results = images.map(img => {
+    const results = images.map((img) => {
       return {
         ...img,
-        url: getPostImageUrl(img.url)
-      }
-    })
+        url: getPostImageUrl(img.url),
+      };
+    });
     const postDataWithImages = { post: postByID, images: results };
     return response.status(200).send({ data: postDataWithImages });
   } catch (error) {
@@ -124,7 +105,7 @@ PostRouter.post(
       const { title, date, content } = request.body;
 
       const promises = request.files.map(async (file) => {
-        const filename =  new Date().getTime().toString() + file.filename;
+        const filename = new Date().getTime().toString() + file.filename;
         const mimetype = file.mimetype;
         const stream = fs.createReadStream(file.path);
 
@@ -141,9 +122,8 @@ PostRouter.post(
           console.log(`File ${filename} uploaded to MinIO bucket`);
         } catch (err) {
           console.error(`Error uploading file ${filename}:`, err);
-          throw err; // Re-throw to trigger catch block below
+          throw err; 
         } finally {
-          // Delete temporary file after upload (optional, consider cleanup mechanism)
           fs.unlinkSync(file.path);
         }
       });
@@ -151,11 +131,6 @@ PostRouter.post(
       const imageKeys = await Promise.all(promises); // Wait for all uploads to complete
 
       await db.insertPost(title, content, date, imageKeys);
-
-      // const imagePaths = request.files.map(file => `${backendURL}/${file.path}`);
-      // console.log(imagePaths)
-
-      // await db.insertPost(title, content, date, imagePaths);
 
       response
         .status(201)
