@@ -4,12 +4,13 @@ import DBQueries from "./Classes/DBQueries.js";
 import PostRouter from "./Routes/PostAPI.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import { setPasswordHASH } from "./Middleware/Bcrypt.js";
-import { Client } from "minio";
+
+
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -18,13 +19,9 @@ app.use("/posts", PostRouter);
 
 export const db = new DBQueries();
 
-// db.createTable();
+db.createTable();
 
 app.get("/", (request, response) => {});
-
-// setPasswordHASH();
-
-// db.deleteAllPosts()
 
 // db.insertUser('admin-user@gmail.com', 'Admin@123')
 
