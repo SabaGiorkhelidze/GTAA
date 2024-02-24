@@ -18,13 +18,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
-    "express-basic-auth": "^1.2.1",
     "jsonwebtoken": "^9.0.2",
     "minio": "^7.1.3",
     "multer": "^1.4.5-lts.1",
     "multer-minio-storage": "^1.0.0",
     "nodemon": "^3.0.3",
     "pg": "^8.11.3",
-    "sqlite3": "^5.1.7"
   }
 }

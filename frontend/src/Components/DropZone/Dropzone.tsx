@@ -34,6 +34,7 @@ const Dropzone = () => {
                 SVG, PNG, JPG or GIF (MAX. 800x400px)
               </p>
             </div>
+            {/* actual dropzone */}
             <input
               id="dropzone-file"
               type="file"
@@ -43,9 +44,6 @@ const Dropzone = () => {
               multiple
             />
           </label>
-          <div>
-            {/* addfile preview */}
-          </div>
         </div>
       </div>
     </div>
