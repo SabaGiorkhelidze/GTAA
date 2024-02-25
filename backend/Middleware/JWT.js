@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config.js";
 
-export const JWT_SECRET = "admin";
 export const authenticateJWT = (req, res, next) => {
   const token = req.cookies.token;
 

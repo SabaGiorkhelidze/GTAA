@@ -4,10 +4,11 @@ import { Readable } from "stream";
 import { s3Client } from "../Middleware/S3.js";
 import { upload } from "../Middleware/Multer.js";
 import fs from "fs";
-import { authenticateJWT, JWT_SECRET } from "../Middleware/JWT.js";
+import { authenticateJWT } from "../Middleware/JWT.js";
 import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import { JWT_SECRET } from "../config.js";
 
 const PostRouter = express.Router();
 PostRouter.use(cookieParser());
