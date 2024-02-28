@@ -8,7 +8,7 @@ import { authenticateJWT } from "../Middleware/JWT.js";
 import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import { JWT_SECRET } from "../config.js";
+import { JWT_SECRET, bucketName } from "../config.js";
 
 const PostRouter = express.Router();
 PostRouter.use(cookieParser());
@@ -18,7 +18,7 @@ PostRouter.get("/image/:id", async (request, response) => {
 
   try {
     const params = {
-      Bucket: "saba",
+      Bucket: bucketName,
       Key: id,
     };
 
@@ -113,7 +113,7 @@ PostRouter.post(
         try {
           // Upload image
           const command = new PutObjectCommand({
-            Bucket: "saba",
+            Bucket: bucketName,
             Key: filename,
             Body: stream,
             ContentType: mimetype,

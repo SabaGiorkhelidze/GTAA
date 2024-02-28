@@ -18,6 +18,10 @@ app.use(cors());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.get("/health", (request, response) => {
+  response.status(200).send()
+});
+
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/posts", PostRouter);
 
@@ -25,10 +29,9 @@ export const db = new DBQueries();
 
 db.createTable();
 
-app.get("/", (request, response) => {});
-
+app.get('/', (req, res) => {})
 // db.insertUser('admin-user@gmail.com', 'Admin@123')
 
 app.listen(PORT, () => {
-  console.log(`App is listening to port: 8080`);
+  console.log(`App is listening to port: ${PORT}`);
 });

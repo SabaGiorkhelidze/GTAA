@@ -1,17 +1,32 @@
 import pkg from "pg";
 const { Pool } = pkg;
 import bcrypt from "bcrypt";
+import fs from "fs";
+import { db_database, db_host, db_password, db_user } from "../config.js"
+
+const rdsCaCert = fs.readFileSync(
+  "./global-bundle.pem"
+);
 
 class DBQueries {
   constructor() {
     this.pool = new Pool({
-      user: "postgres",
-      host: "localhost",
-      database: "GTAAPostDB",
-      password: "password123",
+      user: db_user,
+      host: db_host,
+      database: db_database,
+      password: db_password,
       port: 5432,
+      ssl: {
+        ca: rdsCaCert
+      }
     });
-
+// this.pool = new Pool({
+//   user: "postgres",
+//   host: "localhost",
+//   database: "GTAAPostDB",
+//   password: "password123",
+//   port: 5432,
+// });
     // Query Commands
     this.createTablePostsQuery = `
       CREATE TABLE IF NOT EXISTS posts (
