@@ -9,3 +9,5 @@ export const minIOURL = process.env.minIOURL;
 export const accessKey = process.env.accessKey;
 export const secretAccessKey = process.env.secretAccessKey;
 export const region = process.env.region
+
+export const bucketName = process.env.bucketName

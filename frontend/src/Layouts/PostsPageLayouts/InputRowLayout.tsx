@@ -3,9 +3,11 @@ import { Center, Flex, Box, Spacer, Text } from "@chakra-ui/react";
 import CustomDateInput from "../../Components/Input/CustomDateInput";
 import CustomInput from "../../Components/Input/CustomInput";
 import { PostContext } from "../../Context/PostContext";
+import { PostContextHookTypes } from "../../Types/ContextTypes";
 
 const InputRowLayout = () => {
-  const { handleTitleChange, handleDateChange } = useContext(PostContext);
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const { handleTitleChange, handleDateChange }: PostContextHookTypes = useContext(PostContext);
   return (
     <>
       <Flex

@@ -12,16 +12,39 @@ import NotFound from "../Components/404/NotFound";
 import Loader from "../Components/Loader/Loader";
 import Carousel from "../Components/Carousel/Carousel";
 
+
+
+interface DataImagestypes {
+  url: string
+}
+interface PostDataTypes {
+
+  postid: number,
+  title: string,
+  content: string,
+  date: string
+
+}
+interface WholeDataTypes {
+  post: PostDataTypes,
+  images: DataImagestypes[]
+}
+
+
 const ReadMore = () => {
   const { PostID } = useParams();
   console.log(PostID);
   const { data, loading, error } = useFetchByID(`/posts/${PostID}`);
 
+  // how to fix this shit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // const postData: WholeDataTypes = data
   const { post, images } = data;
+  // console.log(post)
 
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const content = post && post.content ? post.content : "";
 
-  function splitText(content) {
+  function splitText(content: string) {
     if (!content || typeof content !== "string") {
       console.error("Invalid content");
       return { firstPart: "", remainingPart: "" };
@@ -48,7 +71,7 @@ const ReadMore = () => {
   if (error) {
     return <NotFound url={"/"} message={error} />;
   }
-  const urls = images.map((img) => img.url);
+  const urls = images.map((img: DataImagestypes) => img.url);
 
   return (
     <Container maxW={"7xl"} p={{ base: "5", md: "12" }}>

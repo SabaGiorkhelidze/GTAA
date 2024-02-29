@@ -4,6 +4,7 @@ import MenuItem from "./MenuItem";
 import SignInModal from "../../Modal/SignInModal";
 import { useContext } from "react";
 import { AppContext } from "../../../Context/AppContext";
+import { AppContextHookTypes } from "../../../Types/ContextTypes";
 
 const MenuLinks = ({ isOpen }: NavbarMenuLinksPropTypes) => {
   const { isSigned } = useContext(AppContext);

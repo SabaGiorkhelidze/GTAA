@@ -17,7 +17,7 @@ import { DataTypes } from "../../Types/DataTypes";
 
 export default function Card({ PostID, image, title, content, date }: DataTypes) {
   const navigate = useNavigate();
-  const shortenContent = (content) => {
+  const shortenContent = (content: string) => {
     const words = content.split(" ");
     const shortenedContent = words.slice(0, 30).join(" ");
     return shortenedContent;

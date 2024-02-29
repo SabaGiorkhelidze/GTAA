@@ -5,7 +5,7 @@ export const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Set a fixed upload destination for consistency
     // Consider using dynamic paths for better organization
-    cb(null, "images");
+    cb(null, "");
   },
   filename: (req, file, cb) => {
     // Generate unique filenames

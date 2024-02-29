@@ -1,9 +1,25 @@
-import { DataTypes } from "./DataTypes";
 
-export interface NavbarUseContextHookTypes extends DataTypes {
-  isSigned: Boolean;
+export interface ContextTypes {
+  postid: number;
+  title: string;
+  content: string;
+  date: string | Date;
+  thumbnail: {
+    imageid: number;
+    url: string;
+    postid: number;
+  };
+  images: {
+    imageid: 16;
+    url: string;
+    postid: number;
+  }[];
+}
+
+export interface AppContextHookTypes {
+  isSigned: boolean;
   setIsSigned: React.Dispatch<React.SetStateAction<boolean>>;
-  data: DataTypes[];
+  data: ContextTypes[]; // Array of ContextTypes objects
 }
 
 export interface PostContextHookTypes {
@@ -18,4 +34,5 @@ export interface PostContextHookTypes {
   handleTitleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDateChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleContentChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

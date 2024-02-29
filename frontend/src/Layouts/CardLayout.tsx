@@ -1,12 +1,12 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import Card from "../Components/Card/Card";
-import { useContext, useEffect, useState } from "react";
+import { useContext} from "react";
 import { AppContext } from "../Context/AppContext";
-import { DataTypes } from "../Types/DataTypes";
-import axios from "axios";
+import { ContextTypes } from "../Types/ContextTypes";
 
 const CardLayout = () => {
-  const { data } = useContext(AppContext);
+  const appcontext = useContext(AppContext);
+  // console.log('cardLayoutData is: ', data)
 
 
   return (
@@ -18,10 +18,9 @@ const CardLayout = () => {
         gap={4}
         mb="6"
       >
-        {data.map((item: DataTypes) => (
+        {appcontext?.data.map((item: ContextTypes) => (
           <Card
             image={item.thumbnail.url}
-            // image={}
             PostID={item.postid}
             title={item.title}
             content={item.content}

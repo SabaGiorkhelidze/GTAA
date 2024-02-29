@@ -4,37 +4,17 @@ import Navbar from "./Components/Navbar/Navbar";
 import DefaultNavigation from "./Routes/DefaultNavigation";
 // import SignInModal from "./Components/Modal/SignInModal";
 import { AppContext } from "./Context/AppContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useFetch from "./Hooks/useFetch";
 import Loader from "./Components/Loader/Loader";
 // import CardLayout from "./Layouts/CardLayout";
 import NotFound from "./Components/404/NotFound";
 import Footer from "./Components/Footer/Footer";
-import axios from "axios";
 
 function App() {
   const [isSigned, setIsSigned] = useState<boolean>(false);
   const { data, loading, error } = useFetch("/posts");
   console.log(data);
-
-  // const [image, setImage] = useState();
-
-  // useEffect(() => {
-  //   const fetchImage = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:8080/posts/image/1708623540763-image.png', { responseType: 'blob' });
-  //       // console.log(response)
-  //       const dataImg = response.data.data
-  //       setImage(dataImg);
-  //     } catch (error: any) {
-  //       console.log(error.message);
-  //     }
-  //   };
-
-  //   fetchImage();
-  // }, [data]);
-  // console.log(image)
-
 
   if (loading) return <Loader />;
 

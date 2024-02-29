@@ -11,6 +11,7 @@ const useFetchByID = (url: string | number) => {
       try {
         const response = await axios.get(`${url}`); 
         setData(response.data.data);
+        // console.log('data is: ',data)
       } catch (err: any) {
         setError(err.message);
       } finally {
