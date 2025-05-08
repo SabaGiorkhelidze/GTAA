@@ -32,6 +32,7 @@ const SignInModal = () => {
 
       if (response.status === 200) {
         setIsSigned(true);
+        onClose()
       } else {
         setError(response.data.message || "Login failed");
       }

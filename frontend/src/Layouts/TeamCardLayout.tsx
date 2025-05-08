@@ -4,14 +4,17 @@ import { TeamData, TeamDataTypes } from "../Data/TeamData";
 
 const TeamCardLayout = () => {
   return (
-    <div className=" bg-gray-400">
+    <div className=" ">
       <Center mb={6} mt={16} pt={4}>
         <Text fontSize={"2xl"}>გაიცანით ჩვენი გუნდი</Text>
       </Center>
       <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 3, "2xl": 4 }}
+      //{ sm: 1, md: 2, lg: 3, xl: 3, "2xl": 4 }
+        columns={1}
         data-type="Grid"
         gap={4}
+        alignContent={'center'}
+        justifyContent="center"
         mb="6"
       >
         {TeamData.map(

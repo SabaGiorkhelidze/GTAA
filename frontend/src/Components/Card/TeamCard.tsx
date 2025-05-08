@@ -19,9 +19,10 @@ import MediaLinks from "../SocialMediaLinks/MediaLinks";
 import IconBox from "../SocialMediaLinks/IconBox.tsx";
 import CustomBadge from "../Badge/CustomBadge.tsx";
 import { TeamDataTypes } from "../../Data/TeamData.ts";
-export default function TeamCard({img, fullName, position, contactInfo}: TeamDataTypes) {
+export default function TeamCard({ img, fullName, position, contactInfo }: TeamDataTypes) {
   return (
     <Center py={6}>
+      {/* wrapper box */}
       <Box
         maxW={"320px"}
         w={"full"}
@@ -30,6 +31,7 @@ export default function TeamCard({img, fullName, position, contactInfo}: TeamDat
         rounded={"lg"}
         p={6}
         textAlign={"center"}
+        border={'1px'}
       >
         <Avatar
           size={"xl"}
@@ -54,26 +56,13 @@ export default function TeamCard({img, fullName, position, contactInfo}: TeamDat
           {fullName}
         </Heading>
 
-
+        {/* position badge */}
         <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
           <CustomBadge badgeTitle={position} />
         </Stack>
 
         <Stack mt={8} direction={"row"} spacing={4}>
-          
-          {/* Note: this is for further use, when i will add the get more info about person in the v2 */}
-          {/* <Button
-            flex={1}
-            fontSize={"sm"}
-            rounded={"full"}
-            _focus={{
-              bg: "gray.200",
-            }}
-          >
-            See More about person
-          </Button> */}
-          {/* End Of Note */}
-
+          {/* popover trigger */}
           <Popover>
             <PopoverTrigger>
               <Button
@@ -92,8 +81,9 @@ export default function TeamCard({img, fullName, position, contactInfo}: TeamDat
                   bg: "blue.500",
                 }}
               >
-                Follow
+                საკონტაქტო ინფორმაცია
               </Button>
+              {/* popover body */}
             </PopoverTrigger>
             <PopoverContent>
               <PopoverArrow />
@@ -101,21 +91,21 @@ export default function TeamCard({img, fullName, position, contactInfo}: TeamDat
               <PopoverBody borderWidth={4}>
                 {/* Note: this is iterable component to */}
                 {contactInfo.map((info) => (
-                    <Flex
+                  <Flex
                     direction={"row"}
                     justifyContent={"space-between"}
                     alignItems={"center"}
-                    px={12}
+                    px={18}
                   >
-                    
+                    {/* modal icon-text */}
                     <Stack>
                       <IconBox Icon={info.Icon} />
                     </Stack>
                     <Stack>
-                      <MediaLinks url={info.url} name={info.name} />
+                      <MediaLinks name={info.name} />
                     </Stack>
                   </Flex>
-                  ))}
+                ))}
                 {/* End Of Note */}
               </PopoverBody>
             </PopoverContent>

@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 export interface CustomInputPropTypes {
   width: string | number;
   variant: string;
@@ -12,6 +14,6 @@ export interface CustomDateInputPropTypes {
 
 export interface TextAreaPropTypes {
   placeholder: string;
-  onChange?: () => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   size: string;
 }

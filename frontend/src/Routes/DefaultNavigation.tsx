@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "../Pages/HomePage";
 import AddPostPage from "../Pages/AddPostPage";
 import AboutPage from "../Pages/AboutPage";
-import ReadMore from "../Components/ReadMore/ReadMore";
+import ReadMore from "../Pages/ReadMore";
 
 const DefaultNavigation = () => {
   return (

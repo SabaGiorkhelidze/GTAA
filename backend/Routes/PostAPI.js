@@ -1,18 +1,73 @@
 import express from "express";
 import { db } from "../app.js";
+import { Readable } from "stream";
+import { s3Client } from "../Middleware/S3.js";
 import { upload } from "../Middleware/Multer.js";
-import bcrypt from 'bcrypt'
+import fs from "fs";
+import { authenticateJWT } from "../Middleware/JWT.js";
+import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
+import { JWT_SECRET, bucketName } from "../config.js";
 
 const PostRouter = express.Router();
+PostRouter.use(cookieParser());
+
+PostRouter.get("/image/:id", async (request, response) => {
+  const id = request.params.id;
+
+  try {
+    const params = {
+      Bucket: bucketName,
+      Key: id,
+    };
+
+    const command = new GetObjectCommand(params);
+    const { Body } = await s3Client.send(command);
+
+    // Set the appropriate content type for the response
+    response.setHeader("Content-Type", "image/png");
+
+    // Pipe the data from the S3 stream to the Express response
+    Readable.from(Body).pipe(response);
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).send({ error: error.message });
+  }
+});
+
+function getPostImageUrl(key) {
+  return `http://localhost:8080/posts/image/${key}`;
+}
 
 PostRouter.get("/", async (request, response) => {
   try {
-    db.selectAll((err, allPost) => {
-      if (err) {
-        return response.status(500).send({ error: "Error retrieving data" });
-      }
-      return response.status(200).send({ data: allPost });
+    const Posts = await db.selectAll();
+    const images = await db.selectAllImage();
+
+    // Create a map to store images for each postID
+
+    const postImagesMap = images.reduce((mp, image) => {
+      const existing = mp.get(image.postid) || [];
+      return mp.set(image.postid, [
+        ...existing,
+        {
+          ...image,
+          url: getPostImageUrl(image.url),
+        },
+      ]);
+    }, new Map());
+
+    const result = Posts.map((item) => {
+      const images = postImagesMap.get(item.postid) || [];
+      return {
+        ...item,
+        thumbnail: images[0] || "",
+        images,
+      };
     });
+
+    return response.status(200).send({ data: result });
   } catch (err) {
     console.log(err.message);
     return response.status(500).send({ error: err.message });
@@ -26,80 +81,80 @@ PostRouter.get("/:id", async (request, response) => {
       return response.status(500).send({ error: "Server error, invalid ID" });
     }
 
-    db.selectByID(id, async (err, postByID) => {
-      if (err) {
-        return response
-          .status(500)
-          .send({ error: "Error retrieving data by id" });
-      } else {
-        db.selectImagesByPostID(id, (err, images) => {
-          if (err) {
-            return response
-              .status(500)
-              .send({ error: "Error retrieving images by post ID" });
-          } else {
-            const postDataWithImages = { post: postByID, images: images };
-            return response.status(200).send({ data: postDataWithImages });
-          }
-        });
-      }
+    const postByID = await db.selectByID(id);
+    const images = await db.selectImagesByPostID(id);
+    const results = images.map((img) => {
+      return {
+        ...img,
+        url: getPostImageUrl(img.url),
+      };
     });
+    const postDataWithImages = { post: postByID, images: results };
+    return response.status(200).send({ data: postDataWithImages });
   } catch (error) {
     console.log(error.message);
     return response.status(500).send({ error: error.message });
   }
 });
 
+PostRouter.post(
+  "/",
+  upload.array("image", 10),
+  authenticateJWT,
+  async (request, response) => {
+    try {
+      const { title, date, content } = request.body;
 
-const backendURL = 'http://localhost:8080'
+      const promises = request.files.map(async (file) => {
+        const filename = new Date().getTime().toString() + file.filename;
+        const mimetype = file.mimetype;
+        const stream = fs.createReadStream(file.path);
 
+        try {
+          // Upload image
+          const command = new PutObjectCommand({
+            Bucket: bucketName,
+            Key: filename,
+            Body: stream,
+            ContentType: mimetype,
+          });
+          const fil = await s3Client.send(command);
+          return filename;
+          console.log(`File ${filename} uploaded to MinIO bucket`);
+        } catch (err) {
+          console.error(`Error uploading file ${filename}:`, err);
+          throw err; 
+        } finally {
+          fs.unlinkSync(file.path);
+        }
+      });
 
-PostRouter.post("/", upload.array('image', 10), async (request, response) => {
-  try {
-    // console.log(request.files);
-    // console.log(request.body);
+      const imageKeys = await Promise.all(promises); // Wait for all uploads to complete
 
-    const { title, date, content } = request.body;
-    const imagePaths = request.files.map(file => `${backendURL}/${file.path}`);
-    console.log(imagePaths)
+      await db.insertPost(title, content, date, imageKeys);
 
-    db.insertPost(title, content, date, imagePaths, db.insertImageByPostID);
-
-
-
-    response
-      .status(201)
-      .json({ message: "Post Uploaded in database succesfully" });
-  } catch (error) {
-    console.error("Error creating post:", error);
-    response.status(500).json({ error: "Internal Server Error" });
+      response
+        .status(201)
+        .json({ message: "Post Uploaded in database succesfully" });
+    } catch (error) {
+      console.error("Error creating post:", error);
+      response.status(500).json({ error: "Internal Server Error" });
+    }
   }
-});
+);
 
 PostRouter.post("/login", async (req, res) => {
-  // console.log(req.body)
   try {
     const { email, password } = req.body;
-    // console.log(email, password)
 
-    db.getUserByEmail(email, async (err, user) => {
-      if (err) {
-        console.error("Error getting user by email:", err);
-        return res.status(500).json({ error: "Internal Server Error" });
-      }
-
-      if (!user || user.email !== email) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      const passwordMatches = await bcrypt.compare(password, user.password);
-
-      if (passwordMatches) {
-        return res.status(200).json({ message: "Login successful" });
-      } else {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-    });
+    // Authenticate user (replace this with your database logic)
+    if (email === "admin" && password === "admin") {
+      const token = jwt.sign({ email }, JWT_SECRET);
+      res.cookie("token", token, { httpOnly: true });
+      res.status(200).json({ message: "Login successful" });
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ error: "Internal Server Error" });

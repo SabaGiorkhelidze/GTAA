@@ -2,7 +2,6 @@ import React from "react";
 import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from "react-slick";
-
 // Settings for the slider
 const settings = {
   dots: true,
@@ -19,7 +18,7 @@ const settings = {
 export default function Carousel({ imgURL }: { imgURL: string[] }) {
   const [slider, setSlider] = React.useState<Slider | null>(null);
 
-  const top = useBreakpointValue({ base: "90%", md: "95%" });
+  const top = useBreakpointValue({ base: "90%", md: "100%" });
   const side = useBreakpointValue({ base: "30%", md: "10px" });
 
   const imageUrls = imgURL;
@@ -44,6 +43,22 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       {/* Left Icon */}
+     
+      {/* Slider */}
+      <Slider {...settings} ref={(slider) => setSlider(slider)}  >
+        {imageUrls.map((image, index) => (
+          <img
+            style={{
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              position: "relative",
+            }}
+            src={image}
+            key={index}
+          />
+        ))}
+      </Slider>
       <IconButton
         aria-label="left-arrow"
         variant="ghost"
@@ -60,6 +75,7 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
       <IconButton
         aria-label="right-arrow"
         variant="ghost"
+        // color={"white"}
         position="absolute"
         right={side}
         top={top}
@@ -69,21 +85,6 @@ export default function Carousel({ imgURL }: { imgURL: string[] }) {
       >
         <BiRightArrowAlt size="40px" />
       </IconButton>
-      {/* Slider */}
-      <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {imageUrls.map((image, index) => (
-          <img
-            style={{
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              position: "relative",
-            }}
-            src={image}
-            key={index}
-          />
-        ))}
-      </Slider>
     </Box>
   );
 }

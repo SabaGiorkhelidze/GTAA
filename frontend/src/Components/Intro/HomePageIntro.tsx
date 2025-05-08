@@ -14,8 +14,10 @@ import {
 } from "@chakra-ui/react";
 
 import HomeImg from "../../assets/homeImg.jpeg";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePageIntro() {
+  const Navigate = useNavigate()
   return (
     <Container maxW={["full", "xl", "8xl"]}>
       <Stack
@@ -63,6 +65,7 @@ export default function HomePageIntro() {
           >
             <Button
             //add navigatipn to the posts
+              onClick={() => Navigate('/pages/about')}
               rounded={"full"}
               size={"lg"}
               fontWeight={"normal"}
@@ -71,7 +74,7 @@ export default function HomePageIntro() {
               bg={"blue.700"}
               _hover={{ bg: "blue.500" }}
             >
-              Get started
+              ჩვენს შესახებ
             </Button>
           </Stack>
         </Stack>
